@@ -44,6 +44,8 @@ function gameObject(width, height, color, x, y) {
     this.centerY;
     this.rotation = 0;
     this.rotateBool = false;
+    this.rotateTo = 90;
+    
     this.update = function(){
         context = myGameArea.context;
         context.fillStyle = color;
@@ -53,37 +55,45 @@ function gameObject(width, height, color, x, y) {
         this.draw();
         //debugText.update("X: " + this.x + ", Y: " + this.y);
     }
+
     this.draw = function() {
         context.save();
         context.translate(this.centerX, this.centerY);
-        if (this.rotateBool == true && this.rotation < 90) {
+        if (this.rotateBool == true && this.rotation < this.rotateTo) {
         this.rotation+=5;
-        context.rotate(this.rotation * Math.PI/180);
+        //context.rotate(this.rotation * Math.PI/180);
         }
-        if (this.rotation >= 90) {this.rotateBool = false; this.rotation = 0;}
+        context.rotate(this.rotation * Math.PI/180);
+        if (this.rotation >= this.rotateTo) {
+            this.rotateBool = false; 
+            this.rotation = 0;
+            this.rotateTo = 0;
+        }
         context.fillRect(-this.width/2, -this.height/2, this.width, this.height);
         context.restore();
     }
+
     this.move = function(x, y) {
         this.x += x;
         this.y += y;
-        //context.translate(this.x += x, this.y += y);
-        //context.translate(x, y);
     }
+
     this.rotate = function(r) {
-        this.rotateBool = true;
-        //this.rotation += r;
-        if (this.rotation >= 360) { this.rotation -= 360};
-        if (this.rotation < 0) { this.rotation += 360};
-        //context.translate(this.centerX, this.centerY);
-        //context.rotate(r * Math.PI/180);
-        //context.translate(-this.centerX, -this.centerY);
-    }
-    this.rotateAnim = function(r) {
+        //this.rotateBool = true;
         this.rotation += r;
+        
+        if (this.rotation >= 360) { this.rotation -= 360};
+        if (this.rotation < 0) { this.rotation += 360};
+        this.rotateTo = this.rotation;
+    }
+
+    this.rotateAnim = function(rot) {
+        this.rotateBool = true;
+        this.rotateTo = rot;
         if (this.rotation >= 360) { this.rotation -= 360};
         if (this.rotation < 0) { this.rotation += 360};
     }
+
 }
 function textObject(font, colour, xPos, yPos, textToShow) {
     this.font = font;
@@ -97,6 +107,7 @@ function textObject(font, colour, xPos, yPos, textToShow) {
         this.text = textToShow;
         this.draw();
     }
+
     this.draw = function() {
         context.fillStyle = colour;
         context.fillText(this.text, xPos, yPos);
@@ -123,8 +134,10 @@ function updateGameArea() {
     }
     // Space = 32
     if (myGameArea.keys && myGameArea.keys[32]) {
-        myGamePiece.rotate(5);
+        myGamePiece.rotateAnim(90);
     }
+
+
     if (myGameArea.keys && myGameArea.keys[81]) {
         myGamePiece.rotate(-5);
     }
@@ -137,7 +150,8 @@ function updateGameArea() {
         myGamePiece.x + ", Y: " + 
         myGamePiece.y + ", R: " + 
         myGamePiece.rotation + " " +
-        myGamePiece.rotateBool);
+        myGamePiece.rotateBool + " " +
+        myGamePiece.rotateTo);
 }
 function doKeyDown(e){
     myGameArea.keys = (myGameArea.keys || []);
