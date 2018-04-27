@@ -11,14 +11,29 @@ canvas {
 </head>
 <body onload="startGame()">
 <script>
+
+// TODO
+// 
+// 
+// 
+// Make Jumping Better!!
+
+
 var myGamePiece;
 var debugText;
+
+var obstacle;
+
+
 function startGame() {
     myGameArea.start();
-    myGamePiece = new gameObject(30, 30, "red", 10, 120);
+    myGamePiece = new gameObject(30, 30, "red", 50, 120);
+
+    obstacle = new obstacleObject(10, 200, "black", 400, 50);
     
     debugText = new textObject("14px Verdana", "black", 3, 15, "Hello World");
 }
+
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
@@ -34,6 +49,7 @@ var myGameArea = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
+
 function gameObject(width, height, color, x, y) {
     this.gamearea = myGameArea;
     this.width = width;
@@ -45,6 +61,9 @@ function gameObject(width, height, color, x, y) {
     this.rotation = 0;
     this.rotateBool = false;
     this.rotateTo = 90;
+
+    this.gravVar = 1;
+    this.gravMax = 10;
     
     this.update = function(){
         context = myGameArea.context;
@@ -52,15 +71,29 @@ function gameObject(width, height, color, x, y) {
         this.centerX = this.x + (height/2);
         this.centerY = this.y + (width/2);
         
+        this.gravity();
+        
         this.draw();
         //debugText.update("X: " + this.x + ", Y: " + this.y);
+    }
+
+    this.gravity = function() {
+        if(this.gravVar <= this.gravMax) {
+            
+            this.gravVar += 0.15;
+        
+        }
+        //this.y += Math.floor(this.gravVar);
+        this.move(0, Math.floor(this.gravVar));
+        //this.y += 1;
     }
 
     this.draw = function() {
         context.save();
         context.translate(this.centerX, this.centerY);
         if (this.rotateBool == true && this.rotation < this.rotateTo) {
-        this.rotation+=5;
+        this.rotation+=10;
+        myGamePiece.move(0, -3);
         //context.rotate(this.rotation * Math.PI/180);
         }
         context.rotate(this.rotation * Math.PI/180);
@@ -76,15 +109,20 @@ function gameObject(width, height, color, x, y) {
     this.move = function(x, y) {
         this.x += x;
         this.y += y;
+        if (this.x >= myGameArea.canvas.width-width) { this.x = myGameArea.canvas.width-width; }
+        if (this.x <= 0) { this.x = 0; }
+        if (this.y >= myGameArea.canvas.height-this.height) { 
+            this.y = myGameArea.canvas.height-this.height; }
+        if (this.y <= 0) { this.y = 0; }
     }
 
     this.rotate = function(r) {
-        //this.rotateBool = true;
+        this.rotateBool = true;
         this.rotation += r;
         
         if (this.rotation >= 360) { this.rotation -= 360};
         if (this.rotation < 0) { this.rotation += 360};
-        this.rotateTo = this.rotation;
+
     }
 
     this.rotateAnim = function(rot) {
@@ -95,6 +133,33 @@ function gameObject(width, height, color, x, y) {
     }
 
 }
+
+function obstacleObject(width, height, color, x, y) {
+    this.gameArea = myGameArea;
+    this.width = width;
+    this.height = height;
+    this.x = x;
+    this.y = y;
+    
+    
+
+    this.update = function() {
+        context = myGameArea.context;
+        context.fillStyle = color;
+        
+        this.x -= 1;
+        
+        this.draw();
+    }
+
+    this.draw = function() {
+        context.save();
+        context.fillRect(this.x, this.y, this.width, this.height);
+        context.restore();
+    }
+
+}
+
 function textObject(font, colour, xPos, yPos, textToShow) {
     this.font = font;
     this.xPos = xPos;
@@ -114,27 +179,30 @@ function textObject(font, colour, xPos, yPos, textToShow) {
     }
     
 }
+
 function updateGameArea() {
     myGameArea.clear();
     // W = 87
     if (myGameArea.keys && myGameArea.keys[87]) {
-        myGamePiece.move(0, -1);
+        myGamePiece.move(0, -2);
     }
     // A = 65
     if (myGameArea.keys && myGameArea.keys[65]) {
-        myGamePiece.move(-1, 0);
+        myGamePiece.move(-2, 0);
     }
     // S = 83
     if (myGameArea.keys && myGameArea.keys[83]) {
-        myGamePiece.move(0, 1);
+        myGamePiece.move(0, 2);
     }
     // D = 68
     if (myGameArea.keys && myGameArea.keys[68]) {
-        myGamePiece.move(1, 0);
+        myGamePiece.move(2, 0);
     }
     // Space = 32
-    if (myGameArea.keys && myGameArea.keys[32]) {
+    if (myGameArea.keys && myGameArea.keys[32] && !myGamePiece.rotateBool) {
         myGamePiece.rotateAnim(90);
+        myGamePiece.move(0, -10);
+        myGamePiece.gravVar = 0;
     }
 
 
@@ -151,8 +219,13 @@ function updateGameArea() {
         myGamePiece.y + ", R: " + 
         myGamePiece.rotation + " " +
         myGamePiece.rotateBool + " " +
-        myGamePiece.rotateTo);
+        myGamePiece.rotateTo + ", " +
+        myGamePiece.gravVar);
+
+    obstacle.update();
+
 }
+
 function doKeyDown(e){
     myGameArea.keys = (myGameArea.keys || []);
     myGameArea.keys[e.keyCode] = (e.type == "keydown");
