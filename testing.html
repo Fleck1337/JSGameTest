@@ -21,8 +21,15 @@ canvas {
 
 var myGamePiece;
 var debugText;
+var obstacles = [];
+
+var obstacleCount = 0;
 
 var obstacle;
+
+var frameTime = 0;
+
+colliding = false;
 
 
 function startGame() {
@@ -64,6 +71,8 @@ function gameObject(width, height, color, x, y) {
 
     this.gravVar = 1;
     this.gravMax = 10;
+
+    this.transformMatrix;
     
     this.update = function(){
         context = myGameArea.context;
@@ -75,6 +84,17 @@ function gameObject(width, height, color, x, y) {
         
         this.draw();
         //debugText.update("X: " + this.x + ", Y: " + this.y);
+
+        for (var i=0; i < obstacles.length; i++) {
+            //debugText.update(i);
+            //let ii = i;
+            //console.log(i);
+            try{throw i}
+            catch(ii){
+            if (this.collidedWith(obstacles[ii])) { colliding = true;} else {colliding = false;}
+            }
+        }
+
     }
 
     this.gravity = function() {
@@ -97,11 +117,19 @@ function gameObject(width, height, color, x, y) {
         //context.rotate(this.rotation * Math.PI/180);
         }
         context.rotate(this.rotation * Math.PI/180);
+        
+        // Get inverse transform.
+        //this.transformMatrix = context.getTransform().invertSelf();
+        
         if (this.rotation >= this.rotateTo) {
-            this.rotateBool = false; 
+            this.rotateBool = false;
             this.rotation = 0;
             this.rotateTo = 0;
         }
+        
+        // Set colour depending on collision
+        context.fillStyle = (this.collidedWith(obstacle) ? "blue" : "red");
+        
         context.fillRect(-this.width/2, -this.height/2, this.width, this.height);
         context.restore();
     }
@@ -114,6 +142,8 @@ function gameObject(width, height, color, x, y) {
         if (this.y >= myGameArea.canvas.height-this.height) { 
             this.y = myGameArea.canvas.height-this.height; }
         if (this.y <= 0) { this.y = 0; }
+
+
     }
 
     this.rotate = function(r) {
@@ -130,6 +160,29 @@ function gameObject(width, height, color, x, y) {
         this.rotateTo = rot;
         if (this.rotation >= 360) { this.rotation -= 360};
         if (this.rotation < 0) { this.rotation += 360};
+    }
+
+    this.collidedWith = function(object) {
+        // TODO: if collides, return true.
+        
+        thisLeft = this.x;
+        thisRight = this.x + this.width;
+        thisTop = this.y;
+        thisBottom = this.y + this.height;
+
+        objLeft = object.x;
+        objRight = object.x + object.width;
+        objTop = object.y;
+        objBottom = object.y + object.height;
+        
+        if ( thisTop > objBottom ||
+            thisBottom < objTop || 
+            thisRight < objLeft || 
+            thisLeft > objRight ) {
+            return false;
+        }
+        return true;
+        
     }
 
 }
@@ -214,15 +267,31 @@ function updateGameArea() {
     }
     myGamePiece.update();
     //debugText.update();
-    debugText.update("X: " + 
+    debugText.update("    X: " + 
         myGamePiece.x + ", Y: " + 
         myGamePiece.y + ", R: " + 
         myGamePiece.rotation + " " +
         myGamePiece.rotateBool + " " +
         myGamePiece.rotateTo + ", " +
-        myGamePiece.gravVar);
+        //myGamePiece.gravVar 
+        //myGamePiece.collidedWith(obstacle)
+        colliding + " " + obstacles.length
+        );
 
     obstacle.update();
+    
+    frameTime++;
+    
+    if (frameTime >= 250) {
+        obstacles.push(new obstacleObject(10, 200, "black", 400, 50));
+        frameTime = 0;
+    }
+    
+    for (i=0; i < obstacles.length; i++) {
+        obstacles[i].update();
+        //debugText.update(i);
+        //if (obstacles[i].x <= -50) { obstacles.shift();}
+    }
 
 }
 
@@ -233,7 +302,7 @@ function doKeyDown(e){
 </script>
 <br>
 
-<p>Use W A S D to Move</p>
+<p>Use Space to Jump</p>
 <p>How long can you stay alive?</p>
 
 </body>
