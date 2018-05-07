@@ -64,7 +64,7 @@ Game.Screen.playScreen = {
 
 		// Smoothen one last time and update map
 		generator.create(function(x, y, v) {
-			if (v === 1) {
+			if (v === 0) {
 				map[x][y] = Game.Tile.floorTile;
 			} else {
 				map[x][y] = Game.Tile.wallTile;
