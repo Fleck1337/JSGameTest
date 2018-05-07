@@ -29,8 +29,8 @@ Game.Screen.playScreen = {
 		console.log("Entered play screen.");
 		var map = [];
 	    	// Create a map based on our size parameters
-	    	var mapWidth = 500;
-	    	var mapHeight = 500;
+	    	var mapWidth = 250;
+	    	var mapHeight = 250;
 	    	
 		for (var x = 0; x < mapWidth; x++) {
 			// Create the nested array for y values
@@ -40,8 +40,9 @@ Game.Screen.playScreen = {
 				map[x].push(Game.Tile.nullTile);
 			}
 		}
-		// Setup Map Generator
-		var generator = new ROT.Map.Cellular(80, 24);
+		
+		// Setup Cellular Map Generator
+		var generator = new ROT.Map.Cellular(mapWidth, mapHeight);
 		generator.randomize(0.5);
 		var totalIterations = 3;
 		// Iteratively smoothen the map
@@ -56,6 +57,22 @@ Game.Screen.playScreen = {
 				map[x][y] = Game.Tile.wallTile;
 			}
 		});
+		
+		
+		/*
+		// Setup Uniform Map Generator
+		var generator = new ROT.Map.Uniform(mapWidth, mapHeight, {timeLimit: 5000});
+
+		// Smoothen one last time and update map
+		generator.create(function(x, y, v) {
+			if (v === 0) {
+				map[x][y] = Game.Tile.floorTile;
+			} else {
+				map[x][y] = Game.Tile.wallTile;
+			}
+		});
+		*/
+		
 		// Create map from tiles
 		this._map = new Game.Map(map);
 	},
@@ -108,15 +125,24 @@ Game.Screen.playScreen = {
                 		Game.switchScreen(Game.Screen.startScreen);
             		}
 			// Movement
-			if (inputData.keyCode === ROT.VK_LEFT) {
+			if (inputData.keyCode === ROT.VK_LEFT || inputData.keyCode === ROT.VK_NUMPAD4) {
 				this.move(-1, 0);
-			} else if (inputData.keyCode === ROT.VK_RIGHT) {
+			} else if (inputData.keyCode === ROT.VK_RIGHT || inputData.keyCode === ROT.VK_NUMPAD6) {
 				this.move(1, 0);
-			} else if (inputData.keyCode === ROT.VK_UP) {
+			} else if (inputData.keyCode === ROT.VK_UP || inputData.keyCode === ROT.VK_NUMPAD8) {
 				this.move(0, -1);
-			} else if (inputData.keyCode === ROT.VK_DOWN) {
+			} else if (inputData.keyCode === ROT.VK_DOWN || inputData.keyCode === ROT.VK_NUMPAD2) {
 				this.move(0, 1);
+			} else if (inputData.keyCode === ROT.VK_NUMPAD7) {
+				this.move(-1, -1);
+			} else if (inputData.keyCode === ROT.VK_NUMPAD9) {
+				this.move(1, -1);
+			} else if (inputData.keyCode === ROT.VK_NUMPAD1) {
+				this.move(-1, 1);
+			} else if (inputData.keyCode === ROT.VK_NUMPAD3) {
+				this.move(1, 1);
 			}
+		
         	}    
     	},
 	move: function(dX, dY) {
