@@ -133,7 +133,6 @@ Game.Screen.playScreen = {
 				this.move(0, -1);
 			} else if (inputData.keyCode === ROT.VK_DOWN || inputData.keyCode === ROT.VK_NUMPAD_2) {
 				this.move(0, 1);
-			}
 			} else if (inputData.keyCode === ROT.VK_NUMPAD_7) {
 				this.move(-1, -1);
 			} else if (inputData.keyCode === ROT.VK_NUMPAD_9) {
