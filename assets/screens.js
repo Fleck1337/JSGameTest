@@ -41,17 +41,19 @@ Game.Screen.playScreen = {
 }
 
 // Define our Winning Screen
-Game.Screen.startScreen = {
+Game.Screen.winScreen = {
   enter: function() { console.log("Entered win screen"); },
   exit: function() { console.log("Exited win screen") },
   render: function(display) {
     // Render prompt to Screen
-    var r = Math.round(Math.random() * 255);
-    var g = Math.round(Math.random() * 255);
-    var b = Math.round(Math.random() * 255);
-    var background = ROT.Color.toRGB([r, g, b]);
-
-    display.drawText(2, i + 1, "%b{" + background + "}You win!");
+    for (var i = 0; i < 22; i++) {
+      var r = Math.round(Math.random() * 255);
+      var g = Math.round(Math.random() * 255);
+      var b = Math.round(Math.random() * 255);
+      var background = ROT.Color.toRGB([r, g, b]);
+  
+      display.drawText(2, i + 1, "%b{" + background + "}You win!");
+    }
   },
   handleInput: function(inputType, inputData) {
     // Nothing to Do!
@@ -59,7 +61,7 @@ Game.Screen.startScreen = {
 }
 
 // Define our Lose Screen
-Game.Screen.startScreen = {
+Game.Screen.loseScreen = {
   enter: function() { console.log("Entered lose screen"); },
   exit: function() { console.log("Exited lose screen") },
   render: function(display) {
