@@ -106,9 +106,9 @@ Game.Screen.playScreen = {
 				display.draw(
 					x - topLeftX, 
 					y - topLeftY, 
-					glyph.getChar(), 
-					glyph.getForeground(), 
-					glyph.getBackground());
+					tile.getChar(), 
+					tile.getForeground(), 
+					tile.getBackground());
 			}
 		}
 		
