@@ -125,15 +125,25 @@ Game.Screen.playScreen = {
                 		Game.switchScreen(Game.Screen.startScreen);
             		}
 			// Movement
-			if (inputData.keyCode === ROT.VK_LEFT) {
+			if (inputData.keyCode === ROT.VK_LEFT || inputData.keyCode === ROT.VK_NUMPAD_4) {
 				this.move(-1, 0);
-			} else if (inputData.keyCode === ROT.VK_RIGHT) {
+			} else if (inputData.keyCode === ROT.VK_RIGHT || inputData.keyCode === ROT.VK_NUMPAD_6) {
 				this.move(1, 0);
-			} else if (inputData.keyCode === ROT.VK_UP) {
+			} else if (inputData.keyCode === ROT.VK_UP || inputData.keyCode === ROT.VK_NUMPAD_8) {
 				this.move(0, -1);
-			} else if (inputData.keyCode === ROT.VK_DOWN) {
+			} else if (inputData.keyCode === ROT.VK_DOWN || inputData.keyCode === ROT.VK_NUMPAD_2) {
 				this.move(0, 1);
 			}
+			} else if (inputData.keyCode === ROT.VK_NUMPAD_7) {
+				this.move(-1, -1);
+			} else if (inputData.keyCode === ROT.VK_NUMPAD_9) {
+				this.move(1, -1);
+			} else if (inputData.keyCode === ROT.VK_NUMPAD_1) {
+				this.move(-1, 1);
+			} else if (inputData.keyCode === ROT.VK_NUMPAD_3) {
+				this.move(1, 1);
+			}
+		
         	}    
     	},
 	move: function(dX, dY) {
