@@ -73,7 +73,7 @@ Game.Screen.playScreen = {
             if (inputData.keyCode === ROT.VK_RETURN) {
                 Game.switchScreen(Game.Screen.winScreen);
             } else if (inputData.keyCode === ROT.VK_ESCAPE) {
-                Game.switchScreen(Game.Screen.loseScreen);
+                Game.switchScreen(Game.Screen.startScreen);
             }
         }    
     }
