@@ -60,7 +60,7 @@ Game.Screen.playScreen = {
 		*/
 		
 		// Setup Uniform Map Generator
-		var generator = new ROT.Map.Uniform(mapWidth, mapHeight {timeLimit: 5000});
+		var generator = new ROT.Map.Uniform(mapWidth, mapHeight, {timeLimit: 5000});
 
 		// Smoothen one last time and update map
 		generator.create(function(x, y, v) {
