@@ -40,7 +40,7 @@ Game.Screen.playScreen = {
 				map[x].push(Game.Tile.nullTile);
 			}
 		}
-		/*
+		
 		// Setup Cellular Map Generator
 		var generator = new ROT.Map.Cellular(mapWidth, mapHeight);
 		generator.randomize(0.5);
@@ -57,8 +57,9 @@ Game.Screen.playScreen = {
 				map[x][y] = Game.Tile.wallTile;
 			}
 		});
-		*/
 		
+		
+		/*
 		// Setup Uniform Map Generator
 		var generator = new ROT.Map.Uniform(mapWidth, mapHeight, {timeLimit: 5000});
 
@@ -70,7 +71,7 @@ Game.Screen.playScreen = {
 				map[x][y] = Game.Tile.wallTile;
 			}
 		});
-		
+		*/
 		
 		// Create map from tiles
 		this._map = new Game.Map(map);
