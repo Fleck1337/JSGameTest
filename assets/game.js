@@ -1,10 +1,11 @@
-
 var Game =  {
 	_display: null,
 	_currentScreen: null,
+	_screenWidth: 80,
+	_screenHeight: 24,
 	init: function() {
 	    // Any necessary initialization will go here.
-	    this._display = new ROT.Display({width: 80, height: 24});
+	    this._display = new ROT.Display({width: this._screenWidth, height: this._screenHeight});
 	    // Create a helper function for binding to an event
 	    // and making it send it to the screen
 	    var game = this; // So that we don't lose this
@@ -25,6 +26,12 @@ var Game =  {
 	},
 	getDisplay: function() {
 		return this._display;
+	},
+	getScreenWidth: function() {
+		return this._screenWidth;
+	},
+	getScreenHeight: function() {
+		return this._screenHeight;
 	},
 	switchScreen: function(screen) {
 	    // If we had a screen before, notify it that we exited
