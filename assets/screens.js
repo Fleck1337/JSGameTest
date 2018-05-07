@@ -102,7 +102,7 @@ Game.Screen.playScreen = {
 			for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
 				// Fetch the glyph for the tile and render to screen
 				// at the offset position
-				var glyph = this._map.getTile(x, y).getGlyph();
+				var tile = this._map.getTile(x, y);
 				display.draw(
 					x - topLeftX, 
 					y - topLeftY, 
