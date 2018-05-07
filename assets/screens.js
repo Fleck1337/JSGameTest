@@ -41,7 +41,7 @@ Game.Screen.playScreen = {
 			}
 		}
 		// Setup Map Generator
-		var generator = new ROT.Map.Cellular(80, 24);
+		var generator = new ROT.Map.Cellular(mapWidth, mapHeight);
 		generator.randomize(0.5);
 		var totalIterations = 3;
 		// Iteratively smoothen the map
