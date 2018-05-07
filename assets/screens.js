@@ -40,7 +40,8 @@ Game.Screen.playScreen = {
 				map[x].push(Game.Tile.nullTile);
 			}
 		}
-		// Setup Map Generator
+		/*
+		// Setup Cellular Map Generator
 		var generator = new ROT.Map.Cellular(mapWidth, mapHeight);
 		generator.randomize(0.5);
 		var totalIterations = 3;
@@ -56,6 +57,21 @@ Game.Screen.playScreen = {
 				map[x][y] = Game.Tile.wallTile;
 			}
 		});
+		*/
+		
+		// Setup Uniform Map Generator
+		var generator = new ROT.Map.Uniform(mapWidth, mapHeight {timeLimit: 5000});
+
+		// Smoothen one last time and update map
+		generator.create(function(x, y, v) {
+			if (v === 1) {
+				map[x][y] = Game.Tile.floorTile;
+			} else {
+				map[x][y] = Game.Tile.wallTile;
+			}
+		});
+		
+		
 		// Create map from tiles
 		this._map = new Game.Map(map);
 	},
