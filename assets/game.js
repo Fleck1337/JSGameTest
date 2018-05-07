@@ -1,3 +1,4 @@
+
 var Game =  {
 	_display: null,
 	_currentScreen: null,
