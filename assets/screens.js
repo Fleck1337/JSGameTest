@@ -58,8 +58,8 @@ Game.Screen.playScreen = {
         //display.drawText(4,6, "Press [Enter] to win, or [Esc] to lose!");
 		
 		// Iterate through all map cells
-		for (var x = 0; x < this.map.getWidth(); x++) {
-			for (var y = 0; y < this.map.getHeight(); y++) {
+		for (var x = 0; x < this._map.getWidth(); x++) {
+			for (var y = 0; y < this._map.getHeight(); y++) {
 				// Fetch the glyph for the tile and render to screen
 				var glyph = this._map.getTile(x, y).getGlyph();
 				display.draw(x, y, glyph.getChar(), glyph.getForeground(), glyph.getBackground());
