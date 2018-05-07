@@ -23,8 +23,7 @@ Game.Screen.startScreen = {
 // Define our playing screen
 Game.Screen.playScreen = {
 	_map: null,
-	_centerX: 0,
-	_centerY: 0,
+	_player: null,
     	enter: function() {
 		console.log("Entered play screen.");
 		var map = [];
@@ -75,6 +74,12 @@ Game.Screen.playScreen = {
 		
 		// Create map from tiles
 		this._map = new Game.Map(map);
+		
+		// Create our player and set the position
+		this._player = new Game.Entity(Game.PlayerTemplate);
+		var position = this._map.getRandomFloorPosition();
+		this._player.setX(position.x);
+		this._player.setY(position.y);
 	},
     	exit: function() { console.log("Exited play screen."); },
     	render: function(display) {
@@ -84,11 +89,11 @@ Game.Screen.playScreen = {
 		var screenWidth = Game.getScreenWidth();
 		var screenHeight = Game.getScreenHeight();
 		// Make sure the x-axis does not go to the left of the left bound
-		var topLeftX = Math.max(0, this._centerX - (screenWidth / 2));
+		var topLeftX = Math.max(0, this._player.getX() - (screenWidth / 2));
 		// Make sure there is enough space to fit entire game screen
 		topLeftX = Math.min(topLeftX, this._map.getWidth() - screenWidth);
 		// Make sure the y-axis does not go above top bound
-		var topLeftY = Math.max(0, this._centerY - (screenHeight / 2));
+		var topLeftY = Math.max(0, this._player.getY() - (screenHeight / 2));
 		// Make sure there is enough space to fit entire game screen
 		topLeftY = Math.min(topLeftY, this._map.getHeight() - screenHeight);
 		
@@ -107,13 +112,14 @@ Game.Screen.playScreen = {
 			}
 		}
 		
-		// Render the Cursor
+		// Render the Player
 		display.draw(
-			this._centerX - topLeftX,
-			this._centerY - topLeftY,
-			'@',
-			'white',
-			'black');
+			this._player.getX() - topLeftX,
+			this._player.getY() - topLeftY,
+			this._player.getChar(),
+			this._player.getForeground(),
+			this._player.getBackground()
+		);
     	},
     	handleInput: function(inputType, inputData) {
         	if (inputType === 'keydown') {
@@ -146,15 +152,10 @@ Game.Screen.playScreen = {
         	}    
     	},
 	move: function(dX, dY) {
-		// Positive dX means movement Right
-		// Negative means movement Left
-		// 0 means no movement
-		this._centerX = Math.max(0, Math.min(this._map.getWidth() - 1, this._centerX + dX));
-		
-		// Positive dY means movement down
-		// Negative means movement up
-		// 0 means no movement
-		this._centerY = Math.max(0, Math.min(this._map.getHeight() - 1, this._centerY + dY));
+		var newX = this._player.getX() + dX;
+		var newY = this._player.getY() + dY;
+		// Try to move to the new cell
+		this._player.tryMove(newX, newY, this._map);
 	}
 }
 
