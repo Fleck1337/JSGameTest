@@ -56,7 +56,7 @@ Game.Map.prototype.getEngine = function() {
 	return this._engine;
 }
 Game.Map.prototype.getEntities = function() {
-	return this._entities
+	return this._entities;
 }
 Game.Map.prototype.getEntityAt = function(x, y) {
 	// Iterate through all entities searching for one with matching position
