@@ -1,4 +1,4 @@
-Game.Map = function(tiles) {
+Game.Map = function(tiles, player) {
 	this._tiles = tiles;
 	// Cache the width and height based on length
 	// of the dimensions of the tiles array
@@ -9,6 +9,12 @@ Game.Map = function(tiles) {
 	// Create the engine and scheduler
 	this._scheduler = new ROT.Scheduler.Simple();
 	this._engine = new ROT.Engine(this._scheduler);
+	// Add the player
+	this.addEntityAtRandomPosition(player);
+	// Add random fungi
+	for (var - = 0; i < 1000; i++) {
+		this.addEntityAtRandomPosition(new Game.Entity(Game.FungusTemplate));
+	}
 };
 
 // Standard Getters
@@ -42,7 +48,7 @@ Game.Map.prototype.getRandomFloorPosition = function() {
 	do {
 		x = Math.floor(Math.random() * this._width);
 		y = Math.floor(Math.random() * this._width);
-	} while (this.getTile(x, y) != Game.Tile.floorTile);
+	} while (this.getTile(x, y) != Game.Tile.floorTile || this.getEntityAt(x, y));
 	return {x: x, y: y};
 }
 
@@ -60,4 +66,27 @@ Game.Map.prototype.getEntityAt = function(x, y) {
 		}
 	}
 	return false;
+}
+
+Game.Map.prototype.addEntity = function(entity) {
+	// Make sure the entity's position is within bounds
+	if (entity.getX() < 0 || entity.getX() >= this._width || 
+	    entity.getY() < 0 || entity.getY() >= this._height) {
+		throw new Error('Adding entity out of bounds!');
+	}
+	// Update the entity's map
+	entity.setMap(this);
+	// Add the entity to the list of entities
+	this._entities.push(entity);
+	// Check if this entity is an actor, and if so add them to scheduler
+	if (entity.hasMixin('Actor')) {
+		this._scheduler.add(entity, true);
+	}
+}
+
+Game.Map.prototype.addEntityAtRandomPosition = function(entity) {
+	var position = this.getRandomFloorPosition();
+	entity.setX(position.x);
+	entity.setY(position.y);
+	this.addEntity(entity);
 }
