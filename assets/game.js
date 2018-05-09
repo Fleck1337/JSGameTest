@@ -35,9 +35,9 @@ var Game =  {
 	},
 	refresh: function() {
 		// Clear the screen
-		game._display.clear();
+		this._display.clear();
 		// Render the screen
-		game._currentScreen.render(game._display);
+		this._currentScreen.render(this._display);
 	},
 	switchScreen: function(screen) {
 	    // If we had a screen before, notify it that we exited
