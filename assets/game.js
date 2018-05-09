@@ -16,10 +16,6 @@ var Game =  {
 	            if (game._currentScreen !== null) {
 	                // Send the event type and data to the screen
 	                game._currentScreen.handleInput(event, e);
-			// Clear the screen
-			game._display.clear();
-			// Render the screen
-			game._currentScreen.render(game._display);
 	            }
 	        });
 	    }
@@ -37,6 +33,12 @@ var Game =  {
 	getScreenHeight: function() {
 		return this._screenHeight;
 	},
+	refresh: function() {
+		// Clear the screen
+		game._display.clear();
+		// Render the screen
+		game._currentScreen.render(game._display);
+	},
 	switchScreen: function(screen) {
 	    // If we had a screen before, notify it that we exited
 	    if (this._currentScreen !== null) {
@@ -49,7 +51,7 @@ var Game =  {
 	    this._currentScreen = screen;
 	    if (!this._currentScreen !== null) {
 	        this._currentScreen.enter();
-	        this._currentScreen.render(this._display);
+	        this.refresh();
 	    }
 	}
 }
