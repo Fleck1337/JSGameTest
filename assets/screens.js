@@ -78,12 +78,6 @@ Game.Screen.playScreen = {
 		
 		// Start the map's engine
 		this._map.getEngine().start();
-		
-		// Create our player and set the position
-		this._player = new Game.Entity(Game.PlayerTemplate);
-		var position = this._map.getRandomFloorPosition();
-		this._player.setX(position.x);
-		this._player.setY(position.y);
 	},
     	exit: function() { console.log("Exited play screen."); },
     	render: function(display) {
