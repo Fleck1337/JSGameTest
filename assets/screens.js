@@ -30,6 +30,8 @@ Game.Screen.playScreen = {
 	    	// Create a map based on our size parameters
 	    	var mapWidth = 250;
 	    	var mapHeight = 250;
+		// Start the map's engine
+		this._map.getEngine().start();
 	    	
 		for (var x = 0; x < mapWidth; x++) {
 			// Create the nested array for y values
@@ -112,14 +114,23 @@ Game.Screen.playScreen = {
 			}
 		}
 		
-		// Render the Player
-		display.draw(
-			this._player.getX() - topLeftX,
-			this._player.getY() - topLeftY,
-			this._player.getChar(),
-			this._player.getForeground(),
-			this._player.getBackground()
-		);
+		// Render the Entities
+		var entities = this._map.getEntities();
+		for (var i = 0; i < entities.length; i++) {
+			var entity = entities[i];
+			// Only render if the entity is on screen
+			if (entity.getX() >= topLeftX && entity.getY() >= topLeftY &&
+			    entity.getX() < topLeftX + screenWidth &&
+			    entity.getY() < topLeftY + screenHeight) {
+				display.draw(
+					entity.getX() - topLeftX,
+					entity.getY() - topLeftY,
+					entity.getChar(),
+					entity.getForeground(),
+					entity.getBackground()
+				);
+			}
+		}
     	},
     	handleInput: function(inputType, inputData) {
         	if (inputType === 'keydown') {
@@ -129,24 +140,27 @@ Game.Screen.playScreen = {
                 		Game.switchScreen(Game.Screen.winScreen);
             		} else if (inputData.keyCode === ROT.VK_ESCAPE) {
                 		Game.switchScreen(Game.Screen.startScreen);
-            		}
-			// Movement
-			if (inputData.keyCode === ROT.VK_LEFT || inputData.keyCode === ROT.VK_NUMPAD4) {
-				this.move(-1, 0);
-			} else if (inputData.keyCode === ROT.VK_RIGHT || inputData.keyCode === ROT.VK_NUMPAD6) {
-				this.move(1, 0);
-			} else if (inputData.keyCode === ROT.VK_UP || inputData.keyCode === ROT.VK_NUMPAD8) {
-				this.move(0, -1);
-			} else if (inputData.keyCode === ROT.VK_DOWN || inputData.keyCode === ROT.VK_NUMPAD2) {
-				this.move(0, 1);
-			} else if (inputData.keyCode === ROT.VK_NUMPAD7) {
-				this.move(-1, -1);
-			} else if (inputData.keyCode === ROT.VK_NUMPAD9) {
-				this.move(1, -1);
-			} else if (inputData.keyCode === ROT.VK_NUMPAD1) {
-				this.move(-1, 1);
-			} else if (inputData.keyCode === ROT.VK_NUMPAD3) {
-				this.move(1, 1);
+            		} else {
+				// Movement
+				if (inputData.keyCode === ROT.VK_LEFT || inputData.keyCode === ROT.VK_NUMPAD4) {
+					this.move(-1, 0);
+				} else if (inputData.keyCode === ROT.VK_RIGHT || inputData.keyCode === ROT.VK_NUMPAD6) {
+					this.move(1, 0);
+				} else if (inputData.keyCode === ROT.VK_UP || inputData.keyCode === ROT.VK_NUMPAD8) {
+					this.move(0, -1);
+				} else if (inputData.keyCode === ROT.VK_DOWN || inputData.keyCode === ROT.VK_NUMPAD2) {
+					this.move(0, 1);
+				} else if (inputData.keyCode === ROT.VK_NUMPAD7) {
+					this.move(-1, -1);
+				} else if (inputData.keyCode === ROT.VK_NUMPAD9) {
+					this.move(1, -1);
+				} else if (inputData.keyCode === ROT.VK_NUMPAD1) {
+					this.move(-1, 1);
+				} else if (inputData.keyCode === ROT.VK_NUMPAD3) {
+					this.move(1, 1);
+				}
+				// Unlock the engine
+				this._map.getEngine().unlock();
 			}
 		
         	}    
