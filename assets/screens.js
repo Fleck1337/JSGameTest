@@ -30,8 +30,6 @@ Game.Screen.playScreen = {
 	    	// Create a map based on our size parameters
 	    	var mapWidth = 250;
 	    	var mapHeight = 250;
-		// Start the map's engine
-		this._map.getEngine().start();
 	    	
 		for (var x = 0; x < mapWidth; x++) {
 			// Create the nested array for y values
@@ -74,8 +72,12 @@ Game.Screen.playScreen = {
 		});
 		*/
 		
-		// Create map from tiles
-		this._map = new Game.Map(map);
+		// Create map from tiles and player
+		this._player = new Game.Entity(Game.PlayerTemplate);
+		this._map = new Game.Map(map, this._player);
+		
+		// Start the map's engine
+		this._map.getEngine().start();
 		
 		// Create our player and set the position
 		this._player = new Game.Entity(Game.PlayerTemplate);
