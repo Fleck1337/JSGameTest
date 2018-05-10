@@ -58,6 +58,7 @@ Game.Mixins.SimpleAttacker = {
 	name: 'SimpleAttacker',
 	groupName: 'Attacker',
 	attack: function(target) {
+		console.log("Going to Attack");
 		// Only damage the entity if they are destructible
 		if (target.hasMixin('Destructible')) {
 			target.takeDamage(this, 1);
