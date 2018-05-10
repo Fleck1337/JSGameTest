@@ -11,6 +11,7 @@ Game.Mixins.Moveable = {
 		if (target) {
 			// If we are an attacker, try to attack target
 			if (this.hasMixin('Attacker')){
+				console.log("We are an Attacker!");
 				this.attack(target);
 				return true;
 			} else {
