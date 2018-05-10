@@ -58,8 +58,8 @@ Game.Mixins.FungusActor = {
 			if (Math.random() <= 0.02) {
 				// Generate the coordinates of a random adjacent square by generating an offset between [-1, 0, 1]
 				// for both the x and y directions. To do this, we generate a number from 0-2 then subtract 1
-				var xOffset = Math.floor(Math.random() * 3) - 1);
-				var yOffset = Math.floor(Math.random() * 3) - 1);
+				var xOffset = Math.floor(Math.random() * 3) - 1;
+				var yOffset = Math.floor(Math.random() * 3) - 1;
 				// Make we aren't trying to spawn on the same tile as us
 				if (xOffset != 0 || yOffset != 0) {
 					// Check if we can actually spawn at this location, and if so then we grow!
