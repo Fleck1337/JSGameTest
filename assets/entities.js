@@ -9,7 +9,14 @@ Game.Mixins.Moveable = {
 		var target = map.getEntityAt(x, y);
 		// If an entity was present at the tile, we cannot move there
 		if (target) {
-			return false;
+			// If we are an attacker, try to attack target
+			if (this.hasMixin('Attacker')){
+				this.attack(target);
+				return true;
+			} else {
+				// If not nothing we can do, but we cannot move to the tile
+				return false;
+			}
 		}
 		// Check if we can walk on the tile and if so, walk onto it
 		if (tile.isWalkable()) {
@@ -45,17 +52,44 @@ Game.Mixins.FungusActor = {
 	act: function() {  }
 }
 
+// Simple Attacker Mixin
+Game.Mixins.SimpleAttacker = {
+	name: 'SimpleAttacker',
+	groupName: 'Attacker',
+	attack: function(target) {
+		// Only damage the entity if they are destructible
+		if (target.hasMixin('Destructible')) {
+			target.takeDamage(this, 1);
+		}
+	}
+}
+
+// Destructible Mixin
+Game.Mixins.Destructable = {
+	name: 'Destructible',
+	init: function() {
+		this._hp = 1;
+	},
+	takeDamage: function(attacker, damage) {
+		this._hp -= damage;
+		// If we have 0 or less HP, remove ourselves from the map
+		if (this._hp <= 0) {
+			this.getMap().removeEntity(this);
+		}
+	}
+}
+
 // Player Template
 Game.PlayerTemplate = {
 	character: '@',
 	foreground: 'white',
-	background: 'black',
-	mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor]
+	mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor,
+		Game.Mixins.SimpleAttacker, Game.Mixins.Destructible]
 }
 
 // Fungus Template
 Game.FungusTemplate = {
 	character: 'F',
 	foreground: 'green',
-	mixins: [Game.Mixins.FungusActor]
+	mixins: [Game.Mixins.FungusActor, Game.Mixins.Destructible]
 }
