@@ -28,8 +28,8 @@ Game.Screen.playScreen = {
 		console.log("Entered play screen.");
 		var map = [];
 	    	// Create a map based on our size parameters
-	    	var mapWidth = 250;
-	    	var mapHeight = 250;
+	    	var mapWidth = 100;
+	    	var mapHeight = 50;
 	    	
 		for (var x = 0; x < mapWidth; x++) {
 			// Create the nested array for y values
