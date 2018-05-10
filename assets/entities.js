@@ -19,7 +19,7 @@ Game.Mixins.Moveable = {
 			}
 		}
 		// Check if we can walk on the tile and if so, walk onto it
-		if (tile.isWalkable()) {
+		else if (tile.isWalkable()) {
 			// Update entity's position
 			this._x = x;
 			this._y = y;
