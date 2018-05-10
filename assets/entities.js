@@ -74,7 +74,7 @@ Game.Mixins.Destructible = {
 		this._hp -= damage;
 		// If we have 0 or less HP, remove ourselves from the map
 		if (this._hp <= 0) {
-			console.log("Removing Entity");
+			this.getMap().removeEntity(this);
 		}
 	}
 }
