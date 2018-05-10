@@ -106,6 +106,6 @@ Game.Map.prototype.removeEntity = function(entity) {
 	}
 	// If the entity is  an actor, remove them from scheduler
 	if (entity.hasMixin('Actor')) {
-		this._sheduler.remove(entity);
+		this._scheduler.remove(entity);
 	}
 }
