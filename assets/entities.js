@@ -65,7 +65,7 @@ Game.Mixins.SimpleAttacker = {
 }
 
 // Destructible Mixin
-Game.Mixins.Destructable = {
+Game.Mixins.Destructible = {
 	name: 'Destructible',
 	init: function() {
 		this._hp = 1;
