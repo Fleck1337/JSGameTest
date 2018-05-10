@@ -60,6 +60,7 @@ Game.Mixins.SimpleAttacker = {
 		// Only damage the entity if they are destructible
 		if (target.hasMixin('Destructible')) {
 			target.takeDamage(this, 1);
+			console.log("Attacking");
 		}
 	}
 }
@@ -72,8 +73,10 @@ Game.Mixins.Destructible = {
 	},
 	takeDamage: function(attacker, damage) {
 		this._hp -= damage;
+		console.log("Taking Damage");
 		// If we have 0 or less HP, remove ourselves from the map
 		if (this._hp <= 0) {
+			console.log("Removing Entity");
 			this.getMap().removeEntity(this);
 		}
 	}
