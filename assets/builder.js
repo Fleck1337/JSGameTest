@@ -92,7 +92,7 @@ Game.Builder.prototype._fillRegion = function(region, x, y, z) {
 		// Iterate through each neighbor, checking if we can use it to fill and
 		// if so updating the region and adding it to our processing list.
 		while(neighbors.length > 0) {
-			tile = tiles.pop();
+			tile = neighbors.pop();
 			if (this._canFillRegion(tile.x, tile.y, z)) {
 				this._regions[z][tile.x][tile.y] = region;
 				tiles.push(tile);
