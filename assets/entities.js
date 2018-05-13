@@ -197,6 +197,7 @@ Game.PlayerTemplate = {
 
 // Fungus Template
 Game.FungusTemplate = {
+	name: 'fungus',
 	character: 'F',
 	foreground: 'green',
 	maxHp: 10,
