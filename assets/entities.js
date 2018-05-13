@@ -169,7 +169,7 @@ Game.sendMessage = function(recipient, message, args) {
 }
 
 // Send Message to Nearby entities
-Game.sendMessageNearby = function(map, centerx, centerY, message, args) { 
+Game.sendMessageNearby = function(map, centerX, centerY, message, args) { 
 	// If args were passed, we format the message, else no formatting necessary
 	if (args) {
 		message = vsprintf(message, args);
