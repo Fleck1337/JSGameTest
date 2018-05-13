@@ -8,7 +8,7 @@ Game.Builder = function(width, height, depth) {
 	// Instantiate the arrays to be milti-dimension
 	for (var z = 0; z < depth; z++) {
 		// Create a new cave at each level
-		this._tiles[z] = this._generatedLevel();
+		this._tiles[z] = this._generateLevel();
 		// Setup the regions array for each depth
 		this._regions[z] = new Array(width);
 		for (var x = 0; x < width; x++) {
