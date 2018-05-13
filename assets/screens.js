@@ -137,7 +137,7 @@ Game.Screen.playScreen = {
 		}
 		// Render Player HP
 		var stats = '%c{white}%b{black}';
-		stats += vsprintf('HP: %d/%d ', [this._player.getHp(), this._player.getMap()]);
+		stats += vsprintf('HP: %d/%d ', [this._player.getHp(), this._player.getMaxHp()]);
 		display.drawText(0, screenHeight, stats);
     	},
     	handleInput: function(inputType, inputData) {
