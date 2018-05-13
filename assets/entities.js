@@ -117,7 +117,7 @@ Game.Mixins.Destructible = {
 		// We allow taking in health from the template in case we want the entity 
 		// to start with a different amount of HP than the max specified.
 		this._hp = template['hp'] || this._maxHp;
-		this._defensiveValue = template['defenseValue'] || 0;
+		this._defenseValue = template['defenseValue'] || 0;
 	},
 	getDefenseValue: function() {
 		return this._defenseValue;
