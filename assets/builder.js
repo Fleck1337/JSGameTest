@@ -112,7 +112,7 @@ Game.Builder.prototype._removeRegion = function(region, z) {
 			if (this._regions[z][x][y] == region) {
 				// Clear the region and set the tile to a wall tile
 				this._regions[z][x][y] = 0;
-				this._tiles[z][x][y] = Game.Tiles.wallTile;
+				this._tiles[z][x][y] = Game.Tile.wallTile;
 			}
 		}
 	}
