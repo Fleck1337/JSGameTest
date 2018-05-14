@@ -150,7 +150,7 @@ Game.Screen.playScreen = {
 		var newY = this._player.getY() + dY;
 		var newZ = this._player.getZ() + dZ;
 		// Try to move to the new cell
-		this._player.tryMove(newX, newY, this._map);
+		this._player.tryMove(newX, newY, newZ, this._map);
 	}
 }
 
