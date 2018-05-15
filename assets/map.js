@@ -6,7 +6,7 @@ Game.Map = function(tiles, player) {
 	this._height = tiles[0][0].length;
 	// Setup the Field of Visions
 	this._fov = [];
-	this._setupFov();
+	this.setupFov();
 	// Create a list which will hold the entities
 	this._entities = [];
 	// Create the engine and scheduler
