@@ -1,7 +1,7 @@
 Game.Map = function(tiles, player) {
 	this._tiles = tiles;
 	// Cache the dimensions of the tiles array
-	this._depth = tiles.depth;
+	this._depth = tiles.length;
 	this._width = tiles[0].length;
 	this._height = tiles[0][0].length;
 	// Create a list which will hold the entities
@@ -12,11 +12,10 @@ Game.Map = function(tiles, player) {
 	// Add the player
 	this.addEntityAtRandomPosition(player, 0);
 	// Add random fungi
-	console.log("Adding Fungi on" + this._depth + " floors");
+	console.log("Adding Fungi on " + this._depth + " floors");
 	for (var z = 0; z < this._depth; z++) {
-		console.log("Floor " + z);
 		for (var i = 0; i < 50; i++) {
-			console.log("Adding Fungus on floor " + z);
+			//console.log("Adding Fungus on floor " + z);
 			this.addEntityAtRandomPosition(new Game.Entity(Game.FungusTemplate), z);
 		}
 	}
