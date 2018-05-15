@@ -222,7 +222,7 @@ Game.PlayerTemplate = {
 	sightRadius: 6,
 	mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor,
 		Game.Mixins.Attacker, Game.Mixins.Destructible,
-		Game.Mixins.MessageRecipient]
+		Game.Mixins.Sight, Game.Mixins.MessageRecipient]
 }
 
 // Fungus Template
