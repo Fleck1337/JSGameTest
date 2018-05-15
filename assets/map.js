@@ -4,6 +4,9 @@ Game.Map = function(tiles, player) {
 	this._depth = tiles.length;
 	this._width = tiles[0].length;
 	this._height = tiles[0][0].length;
+	// Setup the Field of Visions
+	this._fov = [];
+	this._setupFov();
 	// Create a list which will hold the entities
 	this._entities = [];
 	// Create the engine and scheduler
@@ -52,6 +55,29 @@ Game.Map.prototype.dig = function(x, y, z) {
 Game.Map.prototype.isEmptyFloor = function(x, y, z) {
 	// Check if the tile is floor and also has no entity
 	return this.getTile(x, y, z) == Game.Tile.floorTile && !this.getEntityAt(x, y, z);
+}
+
+Game.Map.prototype.setupFov = function() {
+	// Keep this in 'map' variable so we don't lose it
+	var map = this;
+	// Iterate through each depth level, setting up the field of vision
+	for (var z = 0; z < this._depth; z++) {
+		// We have to put the following code in it's own scope to prevent the depth
+		// variable from being hoisted out of the loop.
+		(function() {
+			// For each depth, we need to create a callback which figures
+			// out if light can pass through a given tile.
+			var depth = z;
+			map._fov.push(
+				new ROT.FOV.DiscreteShadowcasting(function(x, y) {
+					return !map.getTile(x, y, depth).isBlockingLight();
+				}, {topology: 4}));
+		})();
+	}
+}
+
+Game.Map.prototype.getFov = function(depth) {
+	return this._fov[depth];
 }
 
 Game.Map.prototype.getRandomFloorPosition = function(z) {
