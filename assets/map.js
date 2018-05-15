@@ -12,9 +12,10 @@ Game.Map = function(tiles, player) {
 	// Add the player
 	this.addEntityAtRandomPosition(player, 0);
 	// Add random fungi
+	console.log("Adding Fungi");
 	for (var z = 0; z < this._depth; z++) {
 		for (var i = 0; i < 50; i++) {
-			console.log("Adding Fungus at " + z);
+			console.log("Adding Fungus on floor " + z);
 			this.addEntityAtRandomPosition(new Game.Entity(Game.FungusTemplate), z);
 		}
 	}
