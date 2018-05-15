@@ -173,6 +173,18 @@ Game.Mixins.MessageRecipient = {
 	}
 }
 
+// Sight Mixin
+Game.Mixins.Sight = {
+	name: 'Sight',
+	groupName: 'Sight',
+	init: function(template) {
+		this._sightRadius = template['sightRadius'] || 5;
+	},
+	getSightRadius: function() {
+		return this._sightRadius;
+	}
+}
+
 // Send Message Function
 Game.sendMessage = function(recipient, message, args) {
 	// Make sure the recipient can receive the message before doing anything
@@ -207,6 +219,7 @@ Game.PlayerTemplate = {
 	foreground: 'white',
 	maxHp: 40,
 	attackValue: 10,
+	sightRadius: 6,
 	mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor,
 		Game.Mixins.Attacker, Game.Mixins.Destructible,
 		Game.Mixins.MessageRecipient]
