@@ -112,21 +112,21 @@ Game.Screen.playScreen = {
             		} else {
 				// Movement
 				if (inputData.keyCode === ROT.VK_LEFT || inputData.keyCode === ROT.VK_NUMPAD4) {
-					this.move(-1, 0);
+					this.move(-1, 0, 0);
 				} else if (inputData.keyCode === ROT.VK_RIGHT || inputData.keyCode === ROT.VK_NUMPAD6) {
-					this.move(1, 0);
+					this.move(1, 0, 0);
 				} else if (inputData.keyCode === ROT.VK_UP || inputData.keyCode === ROT.VK_NUMPAD8) {
-					this.move(0, -1);
+					this.move(0, -1, 0);
 				} else if (inputData.keyCode === ROT.VK_DOWN || inputData.keyCode === ROT.VK_NUMPAD2) {
-					this.move(0, 1);
+					this.move(0, 1, 0);
 				} else if (inputData.keyCode === ROT.VK_NUMPAD7) {
-					this.move(-1, -1);
+					this.move(-1, -1, 0);
 				} else if (inputData.keyCode === ROT.VK_NUMPAD9) {
-					this.move(1, -1);
+					this.move(1, -1, 0);
 				} else if (inputData.keyCode === ROT.VK_NUMPAD1) {
-					this.move(-1, 1);
+					this.move(-1, 1, 0);
 				} else if (inputData.keyCode === ROT.VK_NUMPAD3) {
-					this.move(1, 1);
+					this.move(1, 1, 0);
 				}
 				// Unlock the engine
 				this._map.getEngine().unlock();
