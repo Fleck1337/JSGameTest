@@ -48,7 +48,7 @@ Game.Mixins.Moveable = {
 		}
 		return false;
 	}
-}
+};
 
 // Main player's Actor Mixin
 Game.Mixins.PlayerActor = {
@@ -62,7 +62,7 @@ Game.Mixins.PlayerActor = {
 		// Clear the message queue
 		this.clearMessages();
 	}
-}
+};
 
 // Fungus Actor Mixin
 Game.Mixins.FungusActor = {
@@ -98,7 +98,23 @@ Game.Mixins.FungusActor = {
 			}
 		}
 	}
-}
+};
+
+// Wander Actor Mixin
+Game.Mixins.WanderActor = {
+	name: 'WanderActor',
+	groupName: 'Actor',
+	act: function() {
+		// Flip a coin to determine if moving by 1 in positive or negative direction
+		var moveOffset = (Math.round(Math.random()) === 1) ? 1: -1;
+		// Flip coin to determine if moving in x or y direction
+		if (Math.round(Math.random()) === 1) {
+			this.tryMove(this.getX() + moveOffset, this.getY(), this.getZ());
+		} else {
+			this.tryMove(this.getX(), this.getY() + moveOffset, this.getZ());
+		}
+	}
+};
 
 // Simple Attacker Mixin
 Game.Mixins.Attacker = {
@@ -124,7 +140,7 @@ Game.Mixins.Attacker = {
 			target.takeDamage(this, damage);
 		}
 	}
-}
+};
 
 // Destructible Mixin
 Game.Mixins.Destructible = {
@@ -154,7 +170,7 @@ Game.Mixins.Destructible = {
 			this.getMap().removeEntity(this);
 		}
 	}
-}
+};
 
 // Message Recipient Mixin
 Game.Mixins.MessageRecipient = {
@@ -171,7 +187,7 @@ Game.Mixins.MessageRecipient = {
 	clearMessages: function() {
 		this._messages = [];
 	}
-}
+};
 
 // Sight Mixin
 Game.Mixins.Sight = {
@@ -183,7 +199,7 @@ Game.Mixins.Sight = {
 	getSightRadius: function() {
 		return this._sightRadius;
 	}
-}
+};
 
 // Send Message Function
 Game.sendMessage = function(recipient, message, args) {
@@ -195,7 +211,7 @@ Game.sendMessage = function(recipient, message, args) {
 		}
 		recipient.receiveMessage(message);
 	}
-}
+};
 
 // Send Message to Nearby entities
 Game.sendMessageNearby = function(map, centerX, centerY, centerZ, message, args) { 
@@ -211,7 +227,7 @@ Game.sendMessageNearby = function(map, centerX, centerY, centerZ, message, args)
 			entities[i].receiveMessage(message);
 		}
 	}
-}
+};
 
 // Player Template
 Game.PlayerTemplate = {
@@ -220,10 +236,10 @@ Game.PlayerTemplate = {
 	maxHp: 40,
 	attackValue: 10,
 	sightRadius: 6,
-	mixins: [Game.Mixins.Moveable, Game.Mixins.PlayerActor,
+	mixins: [Game.Mixins.PlayerActor,
 		Game.Mixins.Attacker, Game.Mixins.Destructible,
 		Game.Mixins.Sight, Game.Mixins.MessageRecipient]
-}
+};
 
 // Fungus Template
 Game.FungusTemplate = {
@@ -232,4 +248,26 @@ Game.FungusTemplate = {
 	foreground: 'green',
 	maxHp: 10,
 	mixins: [Game.Mixins.FungusActor, Game.Mixins.Destructible]
-}
+};
+
+// Bat Template
+Game.BatTemplate = {
+	name: 'bat',
+	character: 'B',
+	foreground: 'white',
+	maxHp: 5,
+	attackValue: 4,
+	mixins: [Game.Mixins.WanderActor,
+		Game.Mixins.Attacker, Game.Mixins.Destructible]
+};
+
+// Newt Template
+Game.NewtTemplate = {
+	name: 'newt',
+	character: ':',
+	foreground: 'yellow',
+	maxHp: 3,
+	attackValue: 2,
+	mixins: [Game.Mixins.WanderActor,
+		Game.Mixins.Attacker, Game.Mixins.Destructible]
+};
