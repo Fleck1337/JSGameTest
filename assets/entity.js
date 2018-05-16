@@ -119,7 +119,7 @@ Game.Entity.prototype.tryMove = function(x, y, z, map) {
 			this.setPosition(x, y, z);
 		}
 	} else if (z > this.getZ()) {
-		if (tile != GameTile.stairsDownTile) {
+		if (tile != Game.Tile.stairsDownTile) {
 			Game.sendMessage("You can't go down here!");
 		} else {
 			this.setPosition(x, y, z);
