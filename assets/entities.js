@@ -55,6 +55,12 @@ Game.Mixins.PlayerActor = {
 	name: 'PlayerActor',
 	groupName: 'Actor',
 	act: function() {
+		// Detect if the game is over
+		if (this.getHp() < 1) {
+			Game.Screen.playScreen.setGameEnded(true);
+			// Send a last message to the player
+			Game.sendMessage(this, 'You have died... Press [Enter] to continue!');
+		}
 		// Re-render the screen
 		Game.refresh();
 		// Lock the engine and wait asynchronously for player to press a key
@@ -166,8 +172,12 @@ Game.Mixins.Destructible = {
 		// If we have 0 or less HP, remove ourselves from the map
 		if (this._hp <= 0) {
 			Game.sendMessage(attacker, 'You kill the %s!', [this.getName()]);
-			Game.sendMessage(this, 'You die!');
-			this.getMap().removeEntity(this);
+			// Check if the player has died, and if so call their act method to prompt the user.
+			if (this.hasMixix(Game.Mixins.PlayerActor)) {
+				this.act();
+			} else {
+				this.getMap().removeEntity(this);
+			}
 		}
 	}
 };
