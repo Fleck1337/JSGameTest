@@ -173,7 +173,7 @@ Game.Mixins.Destructible = {
 		if (this._hp <= 0) {
 			Game.sendMessage(attacker, 'You kill the %s!', [this.getName()]);
 			// Check if the player has died, and if so call their act method to prompt the user.
-			if (this.hasMixix(Game.Mixins.PlayerActor)) {
+			if (this.hasMixin(Game.Mixins.PlayerActor)) {
 				this.act();
 			} else {
 				this.getMap().removeEntity(this);
