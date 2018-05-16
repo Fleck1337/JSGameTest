@@ -154,6 +154,14 @@ Game.Map.prototype.getEntitiesWithinRadius = function(centerX, centerY, centerZ,
 	return results;
 };
 
+Game.Map.prototype.addEntityAtRandomPosition = function(entity, z) {
+	var position = this.getRandomFloorPosition(z);
+	entity.setX(position.x);
+	entity.setY(position.y);
+	entity.setZ(position.z);
+	this.addEntity(entity);
+};
+
 Game.Map.prototype.addEntity = function(entity) {
 	// Update the entity's map
 	entity.setMap(this);
@@ -163,14 +171,6 @@ Game.Map.prototype.addEntity = function(entity) {
 	if (entity.hasMixin('Actor')) {
 		this._scheduler.add(entity, true);
 	}
-};
-
-Game.Map.prototype.addEntityAtRandomPosition = function(entity, z) {
-	var position = this.getRandomFloorPosition(z);
-	entity.setX(position.x);
-	entity.setY(position.y);
-	entity.setZ(position.z);
-	this.addEntity(entity);
 };
 
 Game.Map.prototype.removeEntity = function(entity) {
