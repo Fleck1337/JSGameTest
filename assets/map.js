@@ -205,5 +205,5 @@ Game.Map.prototype.updateEntityPosition = function(entity, oldX, oldY, oldZ) {
 		throw new Error("Tried to add an entity at an occupied position");
 	}
 	// Add the entity to the table of entities
-	this._entites[key] = entity;
+	this._entities[key] = entity;
 };
