@@ -14,12 +14,14 @@ Game.Map = function(tiles, player) {
 	this._engine = new ROT.Engine(this._scheduler);
 	// Add the player
 	this.addEntityAtRandomPosition(player, 0);
-	// Add random fungi
-	console.log("Adding Fungi on " + this._depth + " floors");
+	// Add random enemies to each floor
+	//console.log("Adding Fungi on " + this._depth + " floors");
+	var templates = [Game.FungusTemplate, Game.BatTemplate, Game.NewtTemplate];
 	for (var z = 0; z < this._depth; z++) {
-		for (var i = 0; i < 50; i++) {
-			//console.log("Adding Fungus on floor " + z);
-			this.addEntityAtRandomPosition(new Game.Entity(Game.FungusTemplate), z);
+		for (var i = 0; i < 15; i++) {
+			// Randomly select a template
+			var template = templates[Math.floor(Math.random() * templates.length)];
+			this.addEntityAtRandomPosition(new Game.Entity(template), z);
 		}
 	}
 	
