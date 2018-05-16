@@ -105,7 +105,7 @@ Game.Entity.prototype.getMap = function() {
 	return this._map;
 };
 
-Game.Entity.prototype.tryMove = function() {
+Game.Entity.prototype.tryMove = function(x, y, z, map) {
 	var map = this.getMap();
 	// Must use starting z
 	var tile = map.getTile(x, y, this.getZ());
