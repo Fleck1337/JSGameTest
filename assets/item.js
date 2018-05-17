@@ -1,0 +1,2 @@
+Game.Item = function(properties) {
+}
