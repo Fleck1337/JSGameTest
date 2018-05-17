@@ -254,7 +254,7 @@ Game.PlayerTemplate = {
 // Create our central entity repository
 Game.EntityRepository = new Game.Repository('entities', Game.Entity);
 
-Game.EntityRepisitory.define('fungus', {
+Game.EntityRepository.define('fungus', {
 	name: 'fungus',
 	character: 'F',
 	foreground: 'green',
@@ -262,7 +262,7 @@ Game.EntityRepisitory.define('fungus', {
 	mixins: [Game.Mixins.FungusActor, Game.Mixins.Destructible]
 });
 
-Game.EntityRepisitory.define('bat', {
+Game.EntityRepository.define('bat', {
 	name: 'bat',
 	character: 'B',
 	foreground: 'white',
@@ -271,7 +271,7 @@ Game.EntityRepisitory.define('bat', {
 	mixins: [Game.Mixins.WanderActor, Game.Mixins.Attacker, Game.Mixins.Destructible]
 });
 
-Game.EntityRepisitory.define('newt', {
+Game.EntityRepository.define('newt', {
 	name: 'newt',
 	character: ':',
 	foreground: 'yellow',
