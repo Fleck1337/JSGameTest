@@ -78,9 +78,28 @@ Game.Screen.playScreen = {
 				if (map.isExplored(x, y, currentDepth)) {
 					// Fetch the glyph for the tile and render to screen
 					// at the offset position
-					var tile = this._map.getTile(x, y, currentDepth);
+					var glyph = this._map.getTile(x, y, currentDepth);
 					// The foreground colour becomes dark gray if the tile has been explored but is not visible
-					var foreground = visibleCells[x + ',' + y] ? tile.getForeground() : 'darkGray';
+					var foreground = glyph.getForeground();
+					// If we are at a cell that is in the FoV, we need to check if there are items or entites
+					if(visibleCells[x + ',' + y]) {
+						// Check for items first, since we want to draw entities over items.
+						var items = map.getItemsAt(x, y, currentDepth);
+						// If we have items, we want to render the top most item
+						if (items) {
+							glyph = items[items.length - 1];
+						}
+						// Check if we have an entity at the position
+						if (map.getEntityAt(x, y, currentDepth)) {
+							glyph = map.getEntityAt(x, y, currentDepth);
+						}
+						// Update the foreground colour in case our glyph changed
+						foreground = glyph.getForeground();
+					} else {
+						// Since the tile was previously explored but not visible, 
+						// we want to change the foreground to dark gray.
+						foreground = 'darkGray';
+					}
 					display.draw(
 						x - topLeftX, 
 						y - topLeftY, 
