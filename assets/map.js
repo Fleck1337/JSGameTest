@@ -21,12 +21,12 @@ Game.Map = function(tiles, player) {
 	for (var z = 0; z < this._depth; z++) {
 		for (var i = 0; i < 15; i++) {
 			// Add a random entity
-			this.addEntityAtRandomPosition(new Game.EntityRepository.createRandom(), z);
+			this.addEntityAtRandomPosition(Game.EntityRepository.createRandom(), z);
 		}
 		// 10 items per floor
 		for (var i = 0; i < 10; i++) {
 			// Add a random item
-			this.addEntityAtRandomPosition(new Game.ItemRepository.createRandom(), z);
+			this.addEntityAtRandomPosition(Game.ItemRepository.createRandom(), z);
 		}
 	}
 	
