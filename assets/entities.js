@@ -252,7 +252,7 @@ Game.PlayerTemplate = {
 };
 
 // Create our central entity repository
-Game.EntityRepository = new Game.Repisitory('entities', Game.Entity);
+Game.EntityRepository = new Game.Repository('entities', Game.Entity);
 
 Game.EntityRepisitory.define('fungus', {
 	name: 'fungus',
