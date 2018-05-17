@@ -251,6 +251,36 @@ Game.PlayerTemplate = {
 		Game.Mixins.Sight, Game.Mixins.MessageRecipient]
 };
 
+// Create our central entity repository
+Game.EntityRepository = new Game.Repisitory('entities', Game.Entity);
+
+Game.EntityRepisitory.define('fungus', {
+	name: 'fungus',
+	character: 'F',
+	foreground: 'green',
+	maxHp: 10,
+	mixins: [Game.Mixins.FungusActor, Game.Mixins.Destructible]
+});
+
+Game.EntityRepisitory.define('bat', {
+	name: 'bat',
+	character: 'B',
+	foreground: 'white',
+	maxHp: 5,
+	attackValue: 4,
+	mixins: [Game.Mixins.WanderActor, Game.Mixins.Attacker, Game.Mixins.Destructible]
+});
+
+Game.EntityRepisitory.define('newt', {
+	name: 'newt',
+	character: ':',
+	foreground: 'yellow',
+	maxHp: 3,
+	attackValue: 2,
+	mixins: [Game.Mixins.WanderActor, Game.Mixins.Attacker, Game.Mixins.Destructible]
+});
+
+/*
 // Fungus Template
 Game.FungusTemplate = {
 	name: 'fungus',
@@ -281,3 +311,4 @@ Game.NewtTemplate = {
 	mixins: [Game.Mixins.WanderActor,
 		Game.Mixins.Attacker, Game.Mixins.Destructible]
 };
+*/
