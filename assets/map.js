@@ -18,12 +18,15 @@ Game.Map = function(tiles, player) {
 	this.addEntityAtRandomPosition(player, 0);
 	// Add random enemies to each floor
 	//console.log("Adding Fungi on " + this._depth + " floors");
-	var templates = [Game.FungusTemplate, Game.BatTemplate, Game.NewtTemplate];
 	for (var z = 0; z < this._depth; z++) {
 		for (var i = 0; i < 15; i++) {
-			// Randomly select a template
-			var template = templates[Math.floor(Math.random() * templates.length)];
-			this.addEntityAtRandomPosition(new Game.Entity(template), z);
+			// Add a random entity
+			this.addEntityAtRandomPosition(new Game.EntityRepository.createRandom(), z);
+		}
+		// 10 items per floor
+		for (var i = 0; i < 10; i++) {
+			// Add a random item
+			this.addEntityAtRandomPosition(new Game.ItemRepository.createRandom(), z);
 		}
 	}
 	
