@@ -89,7 +89,7 @@ Game.Mixins.FungusActor = {
 				if (xOffset != 0 || yOffset != 0) {
 					// Check if we can actually spawn at this location, and if so then we grow!
 					if (this.getMap().isEmptyFloor(this.getX() + xOffset, this.getY() + yOffset, this.getZ())) {
-						var entity = new Game.Entity(Game.FungusTemplate);
+						var entity = Game.EntityRepository.create('fungus');
 						entity.setPosition(this.getX() + xOffset,
 								  this.getY() + yOffset, this.getZ());
 						this.getMap().addEntity(entity);
