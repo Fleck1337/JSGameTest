@@ -319,6 +319,7 @@ Game.PlayerTemplate = {
 	inventorySlots: 22,
 	mixins: [Game.Mixins.PlayerActor,
 		Game.Mixins.Attacker, Game.Mixins.Destructible,
+		Game.Mixins.InventoryHolder,
 		Game.Mixins.Sight, Game.Mixins.MessageRecipient]
 };
 
