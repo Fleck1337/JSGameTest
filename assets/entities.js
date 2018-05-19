@@ -256,7 +256,7 @@ Game.Mixins.InventoryHolder = {
 	addItem: function(item) {
 		// Try to find a slot, returning true only if we could add the item.
 		for (var i = 0; i < this._items.length; i++) {
-			if (!thisd._items[i]) {
+			if (!this._items[i]) {
 				this._items[i] = item;
 				return true;
 			}
