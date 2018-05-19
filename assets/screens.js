@@ -361,8 +361,8 @@ Game.Screen.ItemListScreen.prototype.handleInput = function(inputType, inputData
 		// If the user hit escape, hit enter and can't select an
 		// item, or hit enter without any items selected, simply cancel out
 		if (inputData.keyCode === ROT.VK_ESCAPE || 
-			(inputData.keycode === ROT.VK_RETURN && 
-			(!this._canSelectItem || Object.keys(this._selectedIndices).length === 0))) {
+            		(inputData.keyCode === ROT.VK_RETURN && 
+                	(!this._canSelectItem || Object.keys(this._selectedIndices).length === 0))) {
 			Game.Screen.playScreen.setSubScreen(undefined);
 		// Handle pressing return when items are selected
 		} else if (inputData.keyCode === ROT.VK_RETURN) {
