@@ -356,7 +356,7 @@ Game.Screen.ItemListScreen.prototype.executeOkFunction = function() {
 	}
 };
 
-Game.Screen.ItemsListScreen.prototype.handleInput = function(inputType, inputData) {
+Game.Screen.ItemListScreen.prototype.handleInput = function(inputType, inputData) {
 	if (inputType === 'keydown') {
 		// If the user hit escape, hit enter and can't select an
 		// item, or hit enter without any items selected, simply cancel out
