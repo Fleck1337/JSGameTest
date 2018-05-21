@@ -6,10 +6,10 @@ Game.PlayerTemplate = {
 	attackValue: 10,
 	sightRadius: 6,
 	inventorySlots: 22,
-	mixins: [Game.Mixins.PlayerActor,
-		Game.Mixins.Attacker, Game.Mixins.Destructible,
-		Game.Mixins.InventoryHolder,
-		Game.Mixins.Sight, Game.Mixins.MessageRecipient]
+	mixins: [Game.EntityMixins.PlayerActor,
+		Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
+		Game.EntityMixins.InventoryHolder,
+		Game.EntityMixins.Sight, Game.EntityMixins.MessageRecipient]
 };
 
 // Create our central entity repository
@@ -20,7 +20,7 @@ Game.EntityRepository.define('fungus', {
 	character: 'F',
 	foreground: 'green',
 	maxHp: 10,
-	mixins: [Game.Mixins.FungusActor, Game.Mixins.Destructible]
+	mixins: [Game.EntityMixins.FungusActor, Game.EntityMixins.Destructible]
 });
 
 Game.EntityRepository.define('bat', {
@@ -29,7 +29,7 @@ Game.EntityRepository.define('bat', {
 	foreground: 'white',
 	maxHp: 5,
 	attackValue: 4,
-	mixins: [Game.Mixins.WanderActor, Game.Mixins.Attacker, Game.Mixins.Destructible]
+	mixins: [Game.EntityMixins.WanderActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible]
 });
 
 Game.EntityRepository.define('newt', {
@@ -38,7 +38,7 @@ Game.EntityRepository.define('newt', {
 	foreground: 'yellow',
 	maxHp: 3,
 	attackValue: 2,
-	mixins: [Game.Mixins.WanderActor, Game.Mixins.Attacker, Game.Mixins.Destructible]
+	mixins: [Game.EntityMixins.WanderActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible]
 });
 
 /*
