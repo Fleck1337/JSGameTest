@@ -1,55 +1,6 @@
 // Create our Mixins namespace
 Game.EntityMixins = {};
 
-// Define our Movable Mixin
-Game.EntityMixins.Moveable = {
-	name: 'Moveable',
-	tryMove: function(x, y, z, map) {
-		var map = this.getMap();
-		// Must use starting z
-		var tile = map.getTile(x, y, this.getZ());
-		var target = map.getEntityAt(x, y, this.getZ());
-		// If our z level has changed, check if we are on stair
-		if (z < this.getZ()) {
-			if (tile != Game.Tile.stairsUpTile) {
-				Game.sendMessage(this, "You can't go up here!");
-			} else {
-				Game.sendMessage(this, "You ascend to level %d!", [z + 1]);
-				this.setPosition(x, y, z);
-			}
-		} else if (z > this.getZ()) {
-			if (tile != Game.Tile.stairsDownTile) {
-				Game.sendMessage(this, "You can't go down here!");
-			} else {
-				this.setPosition(x, y, z);
-				Game.sendMessage(this, "You descend to level %d!", [z + 1]);
-			}
-		}
-		// If an entity was present at the tile, we cannot move there
-		else if (target) {
-			// If we are an attacker, try to attack target
-			if (this.hasMixin('Attacker')){
-				this.attack(target);
-				return true;
-			} else {
-				// If not nothing we can do, but we cannot move to the tile
-				return false;
-			}
-		}
-		// Check if we can walk on the tile and if so, walk onto it
-		else if (tile.isWalkable()) {
-			// Update entity's position
-			this.setPosition(x, y, z);
-			return true;
-		// Check if tile is diggable and if so, try to dig it
-		} else if (tile.isDiggable()) {
-			map.dig(x, y, z);
-			return true;
-		}
-		return false;
-	}
-};
-
 // Main player's Actor Mixin
 Game.EntityMixins.PlayerActor = {
 	name: 'PlayerActor',
@@ -214,7 +165,7 @@ Game.EntityMixins.Sight = {
 // Send Message Function
 Game.sendMessage = function(recipient, message, args) {
 	// Make sure the recipient can receive the message before doing anything
-	if (recipient.hasMixin(Game.Mixins.MessageRecipient)) {
+	if (recipient.hasMixin(Game.EntityMixins.MessageRecipient)) {
 		// If args were passed, then format the message, else no formatting necessary
 		if (args) {
 			message = vsprintf(message, args);
@@ -233,7 +184,7 @@ Game.sendMessageNearby = function(map, centerX, centerY, centerZ, message, args)
 	entities = map.getEntitiesWithinRadius(centerX, centerY, centerZ, 5);
 	// Iterate through nearby entities, sending message if they can receive it.
 	for (var i = 0; i < entities.length; i++) {
-		if (entities[i].hasMixin(Game.Mixins.MessageRecipient)) {
+		if (entities[i].hasMixin(Game.EntityMixins.MessageRecipient)) {
 			entities[i].receiveMessage(message);
 		}
 	}
