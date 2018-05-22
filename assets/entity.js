@@ -8,6 +8,7 @@ Game.Entity = function(properties) {
 	this._y = properties['y'] || 0;
 	this._z = properties['z'] || 0;
 	this._map = null;
+	this._alive = true;
 };
 
 // Make all entities inherit all the functionality from dynamic glyphs
@@ -115,4 +116,28 @@ Game.Entity.prototype.tryMove = function(x, y, z, map) {
 		return false;
 	}
 	return false;
+};
+
+Game.Entity.prototype.isAlive = function() {
+	return this._alive;
+};
+
+Game.Entity.prototype.kill = function(message) {
+	// Only kill once!
+	if (!this._alive) {
+		return;
+	}
+	this._alive = false;
+	if (message) {
+		Game.sendMessage(this, message);
+	} else {
+		Game.sendMessage(this, "You have died!");
+	}
+	
+	// Check if the player died, and if so call their act method to prompt the user
+	if (this.hasMixin(Game.EntityMixins.PlayerActor)) {
+		this.act();
+	} else {
+		this.getMap().removeEntity(this);
+	}
 };
