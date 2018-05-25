@@ -22,7 +22,7 @@ Game.ItemMixins.Edible = {
 		return this._remainingConsumptions > 0;
 	},
 	describe: function() {
-		if (this._maxConsumptions != this._remainingConsumtions) {
+		if (this._maxConsumptions != this._remainingConsumptions) {
 			return 'partly eaten ' + Game.Item.prototype.describe.call(this);
 		} else {
 			return this._name
