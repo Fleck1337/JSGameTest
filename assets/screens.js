@@ -427,7 +427,7 @@ Game.Screen.inventoryScreen = new Game.Screen.ItemListScreen({
 Game.Screen.pickupScreen = new Game.Screen.ItemListScreen({
 	caption: 'Choose the items you wish to pickup',
 	canSelect: true,
-	canSelectMultiple: true,
+	canSelectMultipleItems: true,
 	ok: function(selectedItems) {
 		// Try to pick up all items, messaging the player if they couldn't all be picked up.
 		if (!this._player.pickupItems(Object.keys(selectedItems))) {
@@ -440,7 +440,7 @@ Game.Screen.pickupScreen = new Game.Screen.ItemListScreen({
 Game.Screen.dropScreen = new Game.Screen.ItemListScreen({
 	caption: 'Choose the item you wish to drop',
 	canSelect: true,
-	canSelectMultiple: false,
+	canSelectMultipleItems: false,
 	ok: function(selectedItems) {
 		// Drop the selected item
 		this._player.dropItem(Object.keys(selectedItems)[0]);
