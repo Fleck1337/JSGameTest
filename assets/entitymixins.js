@@ -132,7 +132,7 @@ Game.EntityMixins.Destructible = {
 			Game.sendMessage(attacker, 'You kill the %s!', [this.getName()]);
 			// If the entity is a corpse dropper, try to add a corpse
 			if (this.hasMixin(Game.EntityMixins.CorpseDropper)) {
-				this._tryDropCorpse();
+				this.tryDropCorpse();
 			}
 			this.kill();
 		}
