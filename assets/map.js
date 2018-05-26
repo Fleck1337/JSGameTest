@@ -30,6 +30,13 @@ Game.Map = function(tiles, player) {
 		}
 	}
 	
+	// Add weapons and armor to the map in random positions
+	var templates = ['dagger', 'sword', 'staff', 'tunic', 'chainmail', 'platemail'];
+	for (var i = 0; i < templates.length; i++) {
+		this.addItemAtRandomPosition(Game.ItemRepository.create(templates[i]), 
+					    Math.floor(this._depth * Math.random()));
+	}
+	
 	// Setup the explored array
 	this._explored = new Array(this._depth);
 	this._setupExploredArray();
