@@ -208,18 +208,18 @@ Game.Screen.playScreen = {
 					
 				} else if (inputData.keyCode === ROT.VK_E) {
 					// Show the eat screen
-					this.setSubScreen(Game.Screen.eatScreen, this._player.getItems(),
+					this.showItemsSubScreen(Game.Screen.eatScreen, this._player.getItems(),
 							  "You have nothing to eat!");
 					return;
 					
 				} else if (inputData.keyCode === ROT.VK_W) {
 					if (inputData.shiftKey) {
 						// Show the wear screen
-						this.setSubScreen(Game.Screen.wearScreen, this._player.getItems(),
+						this.showItemsSubScreen(Game.Screen.wearScreen, this._player.getItems(),
 								  "You have nothing to wear!");
 					} else {
 						// Show the wield screen
-						this.setSubScreen(Game.Screen.wieldScreen, this._player.getItems(),
+						this.showItemsSubScreen(Game.Screen.wieldScreen, this._player.getItems(),
 								  "You have nothing to wield!");
 					}
 					return;
