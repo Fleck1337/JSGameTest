@@ -17,6 +17,19 @@ Game.ItemRepository.define('melon', {
 	mixins: [Game.ItemMixins.Edible]
 });
 
+Game.ItemRepository.define('pumpkin', {
+	name: 'pumpkin',
+	character: '%',
+	foreground: 'orange',
+	foodValue: 50,
+	consumptions: 2,
+	attackValue: 2,
+	defenseValue: 2,
+	wearable: true,
+	wieldable: true,
+	mixins: [Game.ItemMixins.Edible, Game.ItemMixins.Equippable]
+});
+
 Game.ItemRepository.define('corpse', {
 	name: 'corpse',
 	character: '%',
