@@ -91,10 +91,14 @@ Game.EntityMixins.Attacker = {
 		var modifier = 0;
 		// If we can equip items, then have to take into consideration weapon and armor
 		if (this.hasMixin(Game.EntityMixins.Equipper)) {
-			modifier += this.getWeapon().getAttackValue();
+			if (this.getWeapon()) {
+				modifier += this.getWeapon().getAttackValue();
+			}
 		}
 		if (this.getArmor()) {
-			modifier += this.getArmor().getAttackValue();
+			if (this.getArmor()) {
+				modifier += this.getArmor().getAttackValue();
+			}
 		}
 		
 		return this._attackValue + modifier;
