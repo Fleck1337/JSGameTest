@@ -384,7 +384,7 @@ Game.Screen.ItemListScreen.prototype.render = function(display) {
 				suffix = ' (wielding)';
 			}
 			// Render at the correct row and add 2.
-			display.drawText(0, 2 + row, letter + ' ' + selectionState + ' ' + this._items[i].describe());
+			display.drawText(0, 2 + row, letter + ' ' + selectionState + ' ' + this._items[i].describe() + suffix);
 			row++;
 		}
 	}
