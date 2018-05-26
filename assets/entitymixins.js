@@ -133,10 +133,12 @@ Game.EntityMixins.Destructible = {
 		var modifier = 0;
 		// If we can equip items, then have to take into consideration weapon and armor
 		if (this.hasMixin(Game.EntityMixins.Equipper)) {
-			modifier += this.getWeapon().getDefenseValue();
-		}
-		if (this.getArmor()) {
-			modifier += this.getArmor().getDefenseValue();
+			if (this.getWeapon()) {
+				modifier += this.getWeapon().getDefenseValue();
+			}
+			if (this.getArmor()) {
+				modifier += this.getArmor().getDefenseValue();
+			}
 		}
 		
 		return this._defenseValue + modifier;
