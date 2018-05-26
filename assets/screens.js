@@ -221,6 +221,7 @@ Game.Screen.playScreen = {
 						// Show the wield screen
 						this.setSubScreen(Game.Screen.wieldScreen, this._player.getItems(),
 								  "You have nothing to wield!");
+					}
 					return;
 					
 				} else if (inputData.keyCode === ROT.VK_COMMA) {
