@@ -195,34 +195,34 @@ Game.Screen.playScreen = {
 				} else if (inputData.keyCode === ROT.VK_NUMPAD3) {
 					this.move(1, 1, 0);
 				} else if (inputData.keyCode === ROT.VK_I) {
-					if (Game.Screen.inventoryScreen.setup(this._player, this._player.getItems())) {
-						// Show the inventory
-						this.setSubScreen(Game.Screen.inventoryScreen);
-					} else {
-						// If the player has no items, send a message and don't take a turn
-						Game.sendMessage(this._player, "You are not carrying anything!");
-						Game.refresh();
-					}
+					// Show the inventory
+					this.showItemsSubScreen(Game.Screen.inventoryScreen, this._player.getItems(),
+							  "You are not carrying anything!");
 					return;
+					
 				} else if (inputData.keyCode === ROT.VK_D) {
-					if (Game.Screen.dropScreen.setup(this._player, this._player.getItems())) {
-						// Show the drop screen
-						this.setSubScreen(Game.Screen.dropScreen);
-					} else {
-						// If the player has no items, send a message and don't take a turn
-						Game.sendMessage(this._player, "You have nothing to drop!");
-						Game.refresh()
-					}
+					// Show the drop screen
+					this.showItemsSubScreen(Game.Screen.dropScreen, this._player.getItems(),
+							  "You have nothing to drop!");
 					return;
 					
 				} else if (inputData.keyCode === ROT.VK_E) {
-					if (Game.Screen.eatScreen.setup(this._player, this._player.getItems())) {
-						this.setSubScreen(Game.Screen.eatScreen);
-					} else {
-						Game.sendMessage(this._player, "You have nothing to eat!");
-						Game.refresh();
-					}
+					// Show the eat screen
+					this.setSubScreen(Game.Screen.eatScreen, this._player.getItems(),
+							  "You have nothing to eat!");
 					return;
+					
+				} else if (inputData.keyCode === ROT.VK_W) {
+					if (inputData.shiftKey) {
+						// Show the wear screen
+						this.setSubScreen(Game.Screen.wearScreen, this._player.getItems(),
+								  "You have nothing to wear!");
+					} else {
+						// Show the wield screen
+						this.setSubScreen(Game.Screen.wieldScreen, this._player.getItems(),
+								  "You have nothing to wield!");
+					return;
+					
 				} else if (inputData.keyCode === ROT.VK_COMMA) {
 					var items = this._map.getItemsAt(this._player.getX(), this._player.getY(), this._player.getZ());
 					// If there are no items, show a message
@@ -277,6 +277,14 @@ Game.Screen.playScreen = {
 		this._subScreen = subScreen;
 		// Refresh screen on changing the subscreen
 		Game.refresh();
+	},
+	showItemsSubScreen: function(subScreen, items, emptyMessage) {
+		if (items && subScreen.setup(this._player, items) > 0) {
+			this.setSubScreen(subScreen);
+		} else {
+			Game.sendMessage(this._player, emptyMessage);
+			Game.refresh();
+		}
 	}
 };
 
@@ -406,6 +414,10 @@ Game.Screen.ItemListScreen.prototype.handleInput = function(inputType, inputData
 		// Handle pressing return when items are selected
 		} else if (inputData.keyCode === ROT.VK_RETURN) {
 			this.executeOkFunction();
+		// Handle pressing zero when 'no item' selection is enabled
+		} else if (this._canSelectItem && this._hasNoItemOption && inputData.keyCode === ROT.VK_0) {
+			this._selectedIndices = {};
+			this.executeOkFunction();
 		// Handle pressing a letter if we can select
 		} else if (this._canSelectItem && inputData.keyCode >= ROT.VK_A && inputData.keyCode <= ROT.VK_Z) {
 			// Check if it maps to a valid item by subtracting 'a' from the
@@ -475,6 +487,56 @@ Game.Screen.eatScreen = new Game.Screen.ItemListScreen({
 		item.eat(this._player);
 		if (!item.hasRemainingConsumptions()) {
 			this._player.removeItem(key);
+		}
+		return true;
+	}
+});
+
+Game.Screen.wieldScreen = new Game.Screen.ItemListScreen({
+	caption: 'Choose the item you wish to wield',
+	canSelect: true,
+	canSelectMultipleItems: false,
+	hasNoItemOption: true,
+	isAcceptable: function(item) {
+		return item && item.hasMixin('Equippable') && item.isWieldable();
+	},
+	ok: function(selectedItems) {
+		// Check if we selected 'no item'
+		var keys = Object.keys(selectedItems);
+		if (keys.length === 0) {
+			this._player.unwield();
+			Game.sendMessage(this._player, "You are empty handed.");
+		} else {
+			// Make sure to unequip the item first in case it is the armor.
+			var item = selectedItems[keys[0]];
+			this._player.unequip(item);
+			this._player.wield(item);
+			Game.sendMessage(this._player, "You are wielding %s", [item.describeA()]);
+		}
+		return true;
+	}
+});
+
+Game.Screen.wieldScreen = new Game.Screen.ItemListScreen({
+	caption: 'Choose the item you wish to wear',
+	canSelect: true,
+	canSelectMultipleItems: false,
+	hasNoItemOption: true,
+	isAcceptable: function(item) {
+		return item && item.hasMixin('Equippable') && item.isWearable();
+	},
+	ok: function(selectedItems) {
+		// Check if we selected 'no item'
+		var keys = Object.keys(selectedItems);
+		if (keys.length === 0) {
+			this._player.unwield();
+			Game.sendMessage(this._player, "You are not wearing anything.");
+		} else {
+			// Make sure to unequip the item first in case it is the weapon.
+			var item = selectedItems[keys[0]];
+			this._player.unequip(item);
+			this._player.wear(item);
+			Game.sendMessage(this._player, "You are wielding %s", [item.describeA()]);
 		}
 		return true;
 	}
