@@ -518,7 +518,7 @@ Game.Screen.wieldScreen = new Game.Screen.ItemListScreen({
 	}
 });
 
-Game.Screen.wieldScreen = new Game.Screen.ItemListScreen({
+Game.Screen.wearScreen = new Game.Screen.ItemListScreen({
 	caption: 'Choose the item you wish to wear',
 	canSelect: true,
 	canSelectMultipleItems: false,
@@ -537,7 +537,7 @@ Game.Screen.wieldScreen = new Game.Screen.ItemListScreen({
 			var item = selectedItems[keys[0]];
 			this._player.unequip(item);
 			this._player.wear(item);
-			Game.sendMessage(this._player, "You are wielding %s", [item.describeA()]);
+			Game.sendMessage(this._player, "You are wearing %s", [item.describeA()]);
 		}
 		return true;
 	}
