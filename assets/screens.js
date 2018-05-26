@@ -378,7 +378,7 @@ Game.Screen.ItemListScreen.prototype.render = function(display) {
 					     this._selectedIndices[i]) ? '+' : '-';
 			// Check if the item is worn or wielded
 			var suffix = '';
-			if (this._items[i] === this._okayer.getArmor()) {
+			if (this._items[i] === this._player.getArmor()) {
 				suffix = ' (wearing)';
 			} else if (this._items[i] === this._player.getWeapon()) {
 				suffix = ' (wielding)';
