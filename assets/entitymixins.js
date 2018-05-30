@@ -94,6 +94,8 @@ Game.EntityMixins.TaskActor = {
 	hunt: function() {
 		var player = this.getMap().getPlayer();
 		
+		console.log("Starting Hunt Task");
+		
 		// If we are adjacent to the player, then attack instead of hunting.
 		var offsets = Math.abs(player.getX() - this.getX()) + Math.Abs(player.getY() - this.getY());
 		if (offsets === 1) {
@@ -103,9 +105,12 @@ Game.EntityMixins.TaskActor = {
 			}
 		}
 		
-		// Generate the path and move to the first tile/
+		// Generate the path and move to the first tile
 		var source = this;
 		var z = source.getZ();
+		
+		console.log("Generating Path");
+		
 		var path = new ROT.Path.AStar(player.getX(), player.getY(), function(x, y) {
 			// If an entity is present at the tile, can't move there
 			var entity = source.getMap().getEntityAt(x, y, z);
@@ -117,6 +122,9 @@ Game.EntityMixins.TaskActor = {
 		// Once we've gotten the path, we want to move to the second cell that
 		// is passed in the callback (the first is the entity's string point)
 		var count = 0;
+		
+		console.log("Moving along Path");
+		
 		path.compute(source.getX(), source.getY(), function(x, y) {
 			if (count == 1) {
 				source.tryMove(x, y, z);
