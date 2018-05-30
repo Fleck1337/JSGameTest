@@ -98,7 +98,7 @@ Game.EntityMixins.TaskActor = {
 		console.log("Starting Hunt Task");
 		
 		// If we are adjacent to the player, then attack instead of hunting.
-		var offsets = Math.abs(player.getX() - this.getX()) + Math.Abs(player.getY() - this.getY());
+		var offsets = Math.abs(player.getX() - this.getX()) + Math.abs(player.getY() - this.getY());
 		if (offsets === 1) {
 			if (this.hasMixin('Attacker')) {
 				this.attack(player);
