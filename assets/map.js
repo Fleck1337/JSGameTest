@@ -15,6 +15,7 @@ Game.Map = function(tiles, player) {
 	this._scheduler = new ROT.Scheduler.Speed();
 	this._engine = new ROT.Engine(this._scheduler);
 	// Add the player
+	this._player = player;
 	this.addEntityAtRandomPosition(player, 0);
 	// Add random enemies to each floor
 	//console.log("Adding Fungi on " + this._depth + " floors");
