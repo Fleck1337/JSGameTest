@@ -64,8 +64,8 @@ Game.EntityMixins.FungusActor = {
 	}
 };
 
-// Wander Actor Mixin
-Game.EntityMixins.WanderActor = {
+// Task Actor Mixin
+Game.EntityMixins.TaskActor = {
 	name: 'TaskActor',
 	groupName: 'Actor',
 	init: function() {
