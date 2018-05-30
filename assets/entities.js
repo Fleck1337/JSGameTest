@@ -55,7 +55,7 @@ Game.EntityRepository.define('kobold', {
 	maxHp: 6,
 	attackValue: 4,
 	sightRadius: 5,
-	taskS: ['hunt', 'wander'],
+	tasks: ['hunt', 'wander'],
 	mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight,
 		 Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
 		 Game.EntityMixins.CorpseDropper]
