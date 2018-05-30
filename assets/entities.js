@@ -55,41 +55,8 @@ Game.EntityRepository.define('kobold', {
 	maxHp: 6,
 	attackValue: 4,
 	sightRadius: 5,
-	tasks: ['wander', 'hunt'],
+	tasks: ['hunt', 'wander'],
 	mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight,
 		 Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
 		 Game.EntityMixins.CorpseDropper]
 });
-
-/*
-// Fungus Template
-Game.FungusTemplate = {
-	name: 'fungus',
-	character: 'F',
-	foreground: 'green',
-	maxHp: 10,
-	mixins: [Game.Mixins.FungusActor, Game.Mixins.Destructible]
-};
-
-// Bat Template
-Game.BatTemplate = {
-	name: 'bat',
-	character: 'B',
-	foreground: 'white',
-	maxHp: 5,
-	attackValue: 4,
-	mixins: [Game.Mixins.WanderActor,
-		Game.Mixins.Attacker, Game.Mixins.Destructible]
-};
-
-// Newt Template
-Game.NewtTemplate = {
-	name: 'newt',
-	character: ':',
-	foreground: 'yellow',
-	maxHp: 3,
-	attackValue: 2,
-	mixins: [Game.Mixins.WanderActor,
-		Game.Mixins.Attacker, Game.Mixins.Destructible]
-};
-*/
