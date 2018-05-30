@@ -68,7 +68,7 @@ Game.EntityMixins.FungusActor = {
 Game.EntityMixins.TaskActor = {
 	name: 'TaskActor',
 	groupName: 'Actor',
-	init: function() {
+	init: function(template) {
 		// Load Tasks
 		this._tasks = template['tasks'] || ['wander'];
 	},
