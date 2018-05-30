@@ -77,6 +77,7 @@ Game.EntityMixins.TaskActor = {
 		for (var i = 0; i < this._tasks.length; i++) {
 			if (this.canDoTask(this._tasks[i])) {
 				// If we can perform the task, exectute the function for it.
+				console.log("Executing Function for " + this._tasks[i]);
 				this[this._tasks[i]]();
 				return;
 			}
