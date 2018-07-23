@@ -36,9 +36,14 @@ function startGame() {
     myGameArea.start();
     myGamePiece = new gameObject(30, 30, "red", 50, 120);
 
-    obstacle = new obstacleObject(10, 200, "black", 400, 50);
+    //obstacle = new obstacleObject(10, 200, "black", 400, 50);
+    obstacles.push(new obstacleObject(10, 250, "black", 500, 50));
+    obstacles.push(new obstacleObject(10, 250, "black", 750, 50));
+    obstacles.push(new obstacleObject(10, 250, "black", 1000, 50));
+    obstacles.push(new obstacleObject(10, 250, "black", 1250, 50));
+    obstacles.push(new obstacleObject(10, 250, "black", 1500, 50));
     
-    debugText = new textObject("14px Verdana", "black", 3, 15, "Hello World");
+    debugText = new textObject("14px Consolas", "black", 3, 15, "Hello World");
 }
 
 var myGameArea = {
@@ -85,14 +90,18 @@ function gameObject(width, height, color, x, y) {
         this.draw();
         //debugText.update("X: " + this.x + ", Y: " + this.y);
 
-        for (var i=0; i < obstacles.length; i++) {
+        colliding = false;
+
+        for (let i=0; i < obstacles.length ; i++) {
             //debugText.update(i);
             //let ii = i;
             //console.log(i);
-            try{throw i}
-            catch(ii){
-            if (this.collidedWith(obstacles[ii])) { colliding = true;} else {colliding = false;}
-            }
+            const obs = obstacles[i];
+            //if (this.collidedWith(obstacles[i])) { colliding = true;} else {colliding = false;}
+            //if (this.collidedWith(obs)) { colliding = true;} else {colliding = false;}
+            if (myGamePiece.collidedWith(obs) && !colliding) { colliding = true;}
+            //console.log(colliding);
+
         }
 
     }
@@ -128,8 +137,10 @@ function gameObject(width, height, color, x, y) {
         }
         
         // Set colour depending on collision
-        context.fillStyle = (this.collidedWith(obstacle) ? "blue" : "red");
         
+        //context.fillStyle = (this.collidedWith(obstacle) ? "blue" : "red");
+        context.fillStyle = (colliding ? "blue" : "red");
+
         context.fillRect(-this.width/2, -this.height/2, this.width, this.height);
         context.restore();
     }
@@ -201,6 +212,8 @@ function obstacleObject(width, height, color, x, y) {
         context.fillStyle = color;
         
         this.x -= 1;
+
+        //if (this.collidedWith(myGamePiece)) { colliding = true;} else {colliding = false;}
         
         this.draw();
     }
@@ -209,6 +222,29 @@ function obstacleObject(width, height, color, x, y) {
         context.save();
         context.fillRect(this.x, this.y, this.width, this.height);
         context.restore();
+    }
+
+    this.collidedWith = function(object) {
+        // TODO: if collides, return true.
+        
+        thisLeft = this.x;
+        thisRight = this.x + this.width;
+        thisTop = this.y;
+        thisBottom = this.y + this.height;
+
+        objLeft = object.x;
+        objRight = object.x + object.width;
+        objTop = object.y;
+        objBottom = object.y + object.height;
+        
+        if ( thisTop > objBottom ||
+            thisBottom < objTop || 
+            thisRight < objLeft || 
+            thisLeft > objRight ) {
+            return false;
+        }
+        return true;
+        
     }
 
 }
@@ -234,7 +270,10 @@ function textObject(font, colour, xPos, yPos, textToShow) {
 }
 
 function updateGameArea() {
+
+
     myGameArea.clear();
+
     // W = 87
     if (myGameArea.keys && myGameArea.keys[87]) {
         myGamePiece.move(0, -2);
@@ -278,19 +317,21 @@ function updateGameArea() {
         colliding + " " + obstacles.length
         );
 
-    obstacle.update();
+    //obstacle.update();
     
     frameTime++;
     
-    if (frameTime >= 250) {
-        obstacles.push(new obstacleObject(10, 200, "black", 400, 50));
+    if (frameTime >= 200) {
+        //obstacles.push(new obstacleObject(10, 250, "black", 500, 50));
         frameTime = 0;
     }
     
-    for (i=0; i < obstacles.length; i++) {
+    for (var i=0; i < obstacles.length; i++) {
         obstacles[i].update();
+        //if (obstacles[i].collidedWith(myGamePiece)) { colliding = true;} else {colliding = false;}
         //debugText.update(i);
-        //if (obstacles[i].x <= -50) { obstacles.shift();}
+        if (obstacles[i].x <= -250) { obstacles[i].x = 750;}
+        //if (myGamePiece.collidedWith(obstacles[i])) { colliding = true;} else {colliding = false;}
     }
 
 }
