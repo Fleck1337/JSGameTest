@@ -56,6 +56,8 @@ var myGameArea = {
         this.interval = setInterval(updateGameArea, 20);
         window.addEventListener('keydown', doKeyDown, true);
         window.addEventListener('keyup', doKeyDown, true);
+        window.addEventListener('touchstart', doTouch, true);
+        window.addEventListener('mousedown', doTouch, true);
     },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -340,6 +342,16 @@ function doKeyDown(e){
     myGameArea.keys = (myGameArea.keys || []);
     myGameArea.keys[e.keyCode] = (e.type == "keydown");
 }
+
+function doTouch(e){
+    if (!myGamePiece.rotateBool) {
+        myGamePiece.rotateAnim(90);
+        myGamePiece.move(0, -10);
+        myGamePiece.gravVar = 0;
+    }
+}
+
+
 </script>
 <br>
 
