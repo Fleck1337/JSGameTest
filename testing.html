@@ -22,6 +22,7 @@ canvas {
 var myGamePiece;
 var debugText;
 var obstacles = [];
+var obstaclePairs = [];
 
 var obstacleCount = 0;
 
@@ -31,17 +32,27 @@ var frameTime = 0;
 
 colliding = false;
 
+var minOffset = -170;
+var maxOffset = -60;
+
+gameScore = 0;
+
 
 function startGame() {
     myGameArea.start();
     myGamePiece = new gameObject(30, 30, "red", 50, 120);
 
     //obstacle = new obstacleObject(10, 200, "black", 400, 50);
-    obstacles.push(new obstacleObject(10, 200, "black", 500, 50));
-    obstacles.push(new obstacleObject(10, 200, "black", 750, 50));
-    obstacles.push(new obstacleObject(10, 200, "black", 1000, 50));
-    obstacles.push(new obstacleObject(10, 200, "black", 1250, 50));
-    obstacles.push(new obstacleObject(10, 200, "black", 1500, 50));
+    //obstacles.push(new obstacleObject(10, 200, "black", 500, 50));
+    //obstacles.push(new obstacleObject(10, 200, "black", 750, 50));
+    //obstacles.push(new obstacleObject(10, 200, "black", 1000, 50));
+    //obstacles.push(new obstacleObject(10, 200, "black", 1250, 50));
+    //obstacles.push(new obstacleObject(10, 200, "black", 1500, 50));
+
+    obstaclePairs.push(new obstaclePair(10, 200, "black", 500, -170));
+    obstaclePairs.push(new obstaclePair(10, 200, "black", 750, -120));
+    obstaclePairs.push(new obstaclePair(10, 200, "black", 1000, -90));
+    obstaclePairs.push(new obstaclePair(10, 200, "black", 1250, -60));
     
     debugText = new textObject("14px Consolas", "black", 3, 15, "Hello World");
 }
@@ -56,7 +67,7 @@ var myGameArea = {
         this.interval = setInterval(updateGameArea, 20);
         window.addEventListener('keydown', doKeyDown, true);
         window.addEventListener('keyup', doKeyDown, true);
-        window.addEventListener('touchstart', doTouch, true);
+        //window.addEventListener('touchstart', doTouch, true);
         window.addEventListener('mousedown', doTouch, true);
     },
     clear : function() {
@@ -200,6 +211,11 @@ function gameObject(width, height, color, x, y) {
 
 }
 
+function obstaclePair(width, height, color, x, y) {
+    obstacles.push(new obstacleObject(width, height, color, x, y));
+    obstacles.push(new obstacleObject(width, height, color, x, y + height + 100));
+}
+
 function obstacleObject(width, height, color, x, y) {
     this.gameArea = myGameArea;
     this.width = width;
@@ -213,7 +229,7 @@ function obstacleObject(width, height, color, x, y) {
         context = myGameArea.context;
         context.fillStyle = color;
         
-        this.x -= 1;
+        this.x -= 2;
 
         //if (this.collidedWith(myGamePiece)) { colliding = true;} else {colliding = false;}
         
@@ -272,7 +288,8 @@ function textObject(font, colour, xPos, yPos, textToShow) {
 }
 
 function updateGameArea() {
-
+    
+    if (colliding) { return; }
 
     myGameArea.clear();
 
@@ -316,23 +333,40 @@ function updateGameArea() {
         myGamePiece.rotateTo + ", " +
         //myGamePiece.gravVar 
         //myGamePiece.collidedWith(obstacle)
-        colliding + " " + obstacles.length
+        colliding + " " + obstacles.length +
+        " Score: " + gameScore
         );
 
     //obstacle.update();
     
     frameTime++;
     
-    if (frameTime >= 200) {
+    if (frameTime >= 100) {
         //obstacles.push(new obstacleObject(10, 250, "black", 500, 50));
         frameTime = 0;
+        //gameScore ++;
     }
+
+    //for (var i=0; i < obstaclePairs.length; i++) {
+    //    if (obstacles[i].x <= -250) { obstacles[i].x = 750;}
+    //}
+
+    var randOffset = Math.floor(Math.random() * (maxOffset - minOffset + 1) + minOffset);
     
     for (var i=0; i < obstacles.length; i++) {
         obstacles[i].update();
+        //var randOffset = Math.floor(Math.random() * (maxOffset - minOffset + 1) + minOffset);
         //if (obstacles[i].collidedWith(myGamePiece)) { colliding = true;} else {colliding = false;}
         //debugText.update(i);
-        if (obstacles[i].x <= -250) { obstacles[i].x = 750;}
+        if (obstacles[i].x == 50 && i % 2 == 1) { 
+            gameScore++;
+        }
+        if (obstacles[i].x <= -250) { 
+            obstacles[i].x = 750; 
+            //obstacles[i+1].x = 750;
+            obstacles[i].y = randOffset; 
+            if (i % 2 == 1) { obstacles[i].y = randOffset + 300; }
+        }
         //if (myGamePiece.collidedWith(obstacles[i])) { colliding = true;} else {colliding = false;}
     }
 
