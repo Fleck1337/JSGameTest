@@ -14,7 +14,7 @@ canvas {
 
 // TODO
 // 
-// 
+// Player Radius Based Collision Detection?
 // 
 // Make Jumping Better!!
 
@@ -193,6 +193,7 @@ function gameObject(width, height, color, x, y) {
         thisRight = this.x + this.width;
         thisTop = this.y;
         thisBottom = this.y + this.height;
+        
 
         objLeft = object.x;
         objRight = object.x + object.width;
@@ -229,7 +230,7 @@ function obstacleObject(width, height, color, x, y) {
         context = myGameArea.context;
         context.fillStyle = color;
         
-        this.x -= 2;
+        this.x -= 2;// + Math.floor(gameScore / 10);
 
         //if (this.collidedWith(myGamePiece)) { colliding = true;} else {colliding = false;}
         
