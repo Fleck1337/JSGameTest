@@ -32,8 +32,8 @@ var frameTime = 0;
 
 colliding = false;
 
-var minOffset = -180;
-var maxOffset = -10;
+var minOffset = -240;
+var maxOffset = -20;
 
 gameScore = 0;
 
@@ -56,11 +56,11 @@ function startGame() {
     //obstaclePairs.push(new obstaclePair(10, 200, "black", 1000, -90));
     //obstaclePairs.push(new obstaclePair(10, 200, "black", 1250, -60));
 
-    obstaclePairs.push(new obstaclePair(10, 200, "black", 400, -170));
-    obstaclePairs.push(new obstaclePair(10, 200, "black", 600, -120));
-    obstaclePairs.push(new obstaclePair(10, 200, "black", 800, -90));
-    obstaclePairs.push(new obstaclePair(10, 200, "black", 1000, -60));
-    obstaclePairs.push(new obstaclePair(10, 200, "black", 1200, -10));
+    obstaclePairs.push(new obstaclePair(10, 300, "black", 400, -240));
+    obstaclePairs.push(new obstaclePair(10, 300, "black", 600, -20));
+    obstaclePairs.push(new obstaclePair(10, 300, "black", 800, -240));
+    obstaclePairs.push(new obstaclePair(10, 300, "black", 1000, -90));
+    obstaclePairs.push(new obstaclePair(10, 300, "black", 1200, -30));
     
     debugText = new textObject("14px Consolas", "black", 3, 15, "Hello World");
 }
@@ -68,8 +68,8 @@ function startGame() {
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 400;
-        this.canvas.height = 300;
+        this.canvas.width = 300;
+        this.canvas.height = 400;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
@@ -380,7 +380,7 @@ function updateGameArea() {
             obstacles[i].x = 800;
             //obstacles[i+1].x = 750;
             obstacles[i].y = randOffset; 
-            if (i % 2 == 1) { obstacles[i].y = randOffset + 300; }
+            if (i % 2 == 1) { obstacles[i].y = randOffset + 400; }
         }
         //if (myGamePiece.collidedWith(obstacles[i])) { colliding = true;} else {colliding = false;}
     }
@@ -395,6 +395,7 @@ function doKeyDown(e){
 function doTouch(e){
     if (!myGamePiece.rotateBool) {
         myGamePiece.rotateAnim(90);
+    
         myGamePiece.move(0, -10);
         myGamePiece.gravVar = 0;
     }
