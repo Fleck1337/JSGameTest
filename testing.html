@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"/>
 <style>
 canvas {
     border:1px solid #d3d3d3;
@@ -9,7 +9,7 @@ canvas {
 }
 </style>
 </head>
-<body onload="startGame()">
+<body onload="startGame()" onselectstart="return false;">
 <script>
 
 // TODO
@@ -32,10 +32,12 @@ var frameTime = 0;
 
 colliding = false;
 
-var minOffset = -170;
-var maxOffset = -60;
+var minOffset = -180;
+var maxOffset = -10;
 
 gameScore = 0;
+
+var playerInvMatrix;
 
 
 function startGame() {
@@ -49,10 +51,16 @@ function startGame() {
     //obstacles.push(new obstacleObject(10, 200, "black", 1250, 50));
     //obstacles.push(new obstacleObject(10, 200, "black", 1500, 50));
 
-    obstaclePairs.push(new obstaclePair(10, 200, "black", 500, -170));
-    obstaclePairs.push(new obstaclePair(10, 200, "black", 750, -120));
-    obstaclePairs.push(new obstaclePair(10, 200, "black", 1000, -90));
-    obstaclePairs.push(new obstaclePair(10, 200, "black", 1250, -60));
+    //obstaclePairs.push(new obstaclePair(10, 200, "black", 500, -170));
+    //obstaclePairs.push(new obstaclePair(10, 200, "black", 750, -120));
+    //obstaclePairs.push(new obstaclePair(10, 200, "black", 1000, -90));
+    //obstaclePairs.push(new obstaclePair(10, 200, "black", 1250, -60));
+
+    obstaclePairs.push(new obstaclePair(10, 200, "black", 400, -170));
+    obstaclePairs.push(new obstaclePair(10, 200, "black", 600, -120));
+    obstaclePairs.push(new obstaclePair(10, 200, "black", 800, -90));
+    obstaclePairs.push(new obstaclePair(10, 200, "black", 1000, -60));
+    obstaclePairs.push(new obstaclePair(10, 200, "black", 1200, -10));
     
     debugText = new textObject("14px Consolas", "black", 3, 15, "Hello World");
 }
@@ -60,15 +68,15 @@ function startGame() {
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
+        this.canvas.width = 400;
+        this.canvas.height = 300;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
         window.addEventListener('keydown', doKeyDown, true);
         window.addEventListener('keyup', doKeyDown, true);
-        window.addEventListener('touchstart', doTouch, true);
-        //window.addEventListener('mousedown', doTouch, true);
+        //window.addEventListener('touchstart', doTouch, true);
+        window.addEventListener('mousedown', doTouch, true);
     },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -155,6 +163,9 @@ function gameObject(width, height, color, x, y) {
         context.fillStyle = (colliding ? "blue" : "red");
 
         context.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+        
+        //playerInvMatrix = context.getTransform().invertSelf(); // get the inverted matrix
+        
         context.restore();
     }
 
@@ -207,6 +218,8 @@ function gameObject(width, height, color, x, y) {
             return false;
         }
         return true;
+        
+        // TESTING - Rotated Collision Detection
         
     }
 
@@ -296,19 +309,19 @@ function updateGameArea() {
 
     // W = 87
     if (myGameArea.keys && myGameArea.keys[87]) {
-        myGamePiece.move(0, -2);
+        //myGamePiece.move(0, -2);
     }
     // A = 65
     if (myGameArea.keys && myGameArea.keys[65]) {
-        myGamePiece.move(-2, 0);
+        //myGamePiece.move(-2, 0);
     }
     // S = 83
     if (myGameArea.keys && myGameArea.keys[83]) {
-        myGamePiece.move(0, 2);
+        //myGamePiece.move(0, 2);
     }
     // D = 68
     if (myGameArea.keys && myGameArea.keys[68]) {
-        myGamePiece.move(2, 0);
+        //myGamePiece.move(2, 0);
     }
     // Space = 32
     if (myGameArea.keys && myGameArea.keys[32] && !myGamePiece.rotateBool) {
@@ -326,15 +339,15 @@ function updateGameArea() {
     }
     myGamePiece.update();
     //debugText.update();
-    debugText.update("    X: " + 
+    debugText.update(" X: " + 
         myGamePiece.x + ", Y: " + 
         myGamePiece.y + ", R: " + 
         myGamePiece.rotation + " " +
-        myGamePiece.rotateBool + " " +
-        myGamePiece.rotateTo + ", " +
+        //myGamePiece.rotateBool + " " +
+        //myGamePiece.rotateTo + ", " +
         //myGamePiece.gravVar 
         //myGamePiece.collidedWith(obstacle)
-        colliding + " " + obstacles.length +
+        //colliding + " " + obstacles.length +
         " Score: " + gameScore
         );
 
@@ -362,8 +375,9 @@ function updateGameArea() {
         if (obstacles[i].x == 50 && i % 2 == 1) { 
             gameScore++;
         }
-        if (obstacles[i].x <= -250) { 
-            obstacles[i].x = 750; 
+        if (obstacles[i].x <= -200) { 
+            //obstacles[i].x = 750; Above = -250
+            obstacles[i].x = 800;
             //obstacles[i+1].x = 750;
             obstacles[i].y = randOffset; 
             if (i % 2 == 1) { obstacles[i].y = randOffset + 300; }
@@ -387,7 +401,9 @@ function doTouch(e){
 }
 
 
+
 </script>
+
 <br>
 
 <p>Use Space to Jump</p>
