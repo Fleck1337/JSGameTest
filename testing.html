@@ -39,6 +39,8 @@ gameScore = 0;
 
 var playerInvMatrix;
 
+var jumpBool = false;
+
 
 function startGame() {
     myGameArea.start();
@@ -75,8 +77,10 @@ var myGameArea = {
         this.interval = setInterval(updateGameArea, 20);
         window.addEventListener('keydown', doKeyDown, true);
         window.addEventListener('keyup', doKeyDown, true);
-        //window.addEventListener('touchstart', doTouch, true);
+        window.addEventListener('touchstart', doTouch, true);
         window.addEventListener('mousedown', doTouch, true);
+        window.addEventListener('mouseup', doMouseUp, true);
+        window.addEventListener('touchend', doMouseUp, true);
     },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -330,6 +334,12 @@ function updateGameArea() {
         myGamePiece.gravVar = 0;
     }
 
+    if (jumpBool && !myGamePiece.rotateBool) {
+        myGamePiece.rotateAnim(90);
+        myGamePiece.move(0, -10);
+        myGamePiece.gravVar = 0;
+    }
+
 
     if (myGameArea.keys && myGameArea.keys[81]) {
         myGamePiece.rotate(-5);
@@ -393,12 +403,18 @@ function doKeyDown(e){
 }
 
 function doTouch(e){
-    if (!myGamePiece.rotateBool) {
-        myGamePiece.rotateAnim(90);
-    
-        myGamePiece.move(0, -10);
-        myGamePiece.gravVar = 0;
+    if (!myGamePiece.rotateBool && !jumpBool) {
+        //myGamePiece.rotateAnim(90);
+        //myGamePiece.move(0, -10);
+        //myGamePiece.gravVar = 0;
+        
+        jumpBool = true;
     }
+}
+
+function doMouseUp(e) {
+    jumpBool = false;
+    
 }
 
 
