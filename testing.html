@@ -37,14 +37,25 @@ var maxOffset = -20;
 
 gameScore = 0;
 
+var highScore = 0;
+
 var playerInvMatrix;
 
 var jumpBool = false;
+
+var textBackground;
+
+var pause = false;
+
+window.onblur = function() { pause = true; }
+window.onfocus = function() { pause = false; }
 
 
 function startGame() {
     myGameArea.start();
     myGamePiece = new gameObject(30, 30, "red", 50, 120);
+    
+    textBackground = new obstacleObject(300, 20, "#555", 0, 0);
 
     //obstacle = new obstacleObject(10, 200, "black", 400, 50);
     //obstacles.push(new obstacleObject(10, 200, "black", 500, 50));
@@ -64,7 +75,18 @@ function startGame() {
     obstaclePairs.push(new obstaclePair(10, 300, "black", 1000, -90));
     obstaclePairs.push(new obstaclePair(10, 300, "black", 1200, -30));
     
-    debugText = new textObject("14px Consolas", "black", 3, 15, "Hello World");
+    debugText = new textObject("14px Consolas", "white", 3, 15, "Hello World");
+    scoreText = new textObject("14px Consolas", "white", 3, 15, "Score: ");
+    hiscoreText = new textObject("14px Consolas", "white", 150, 15, "Highscore: ");
+    
+    if (localStorage.highScore) {
+        highScore = localStorage.highScore;
+    } else {
+        localStorage.setItem("highScore", highScore);
+    }
+    
+    //window.onblur = function() { windowFocus = false; }
+    //window.onfocus function() { windowFocus = true; }
 }
 
 var myGameArea = {
@@ -256,6 +278,7 @@ function obstacleObject(width, height, color, x, y) {
 
     this.draw = function() {
         context.save();
+        context.fillStyle = color;
         context.fillRect(this.x, this.y, this.width, this.height);
         context.restore();
     }
@@ -307,7 +330,7 @@ function textObject(font, colour, xPos, yPos, textToShow) {
 
 function updateGameArea() {
     
-    if (colliding) { return; }
+    if (colliding || pause) { return; }
 
     myGameArea.clear();
 
@@ -349,17 +372,8 @@ function updateGameArea() {
     }
     myGamePiece.update();
     //debugText.update();
-    debugText.update(" X: " + 
-        myGamePiece.x + ", Y: " + 
-        myGamePiece.y + ", R: " + 
-        myGamePiece.rotation + " " +
-        //myGamePiece.rotateBool + " " +
-        //myGamePiece.rotateTo + ", " +
-        //myGamePiece.gravVar 
-        //myGamePiece.collidedWith(obstacle)
-        //colliding + " " + obstacles.length +
-        " Score: " + gameScore
-        );
+    
+
 
     //obstacle.update();
     
@@ -384,6 +398,10 @@ function updateGameArea() {
         //debugText.update(i);
         if (obstacles[i].x == 50 && i % 2 == 1) { 
             gameScore++;
+            if (gameScore > highScore) {
+                highScore = gameScore;
+                localStorage.highScore = highScore;
+            }
         }
         if (obstacles[i].x <= -200) { 
             //obstacles[i].x = 750; Above = -250
@@ -394,6 +412,25 @@ function updateGameArea() {
         }
         //if (myGamePiece.collidedWith(obstacles[i])) { colliding = true;} else {colliding = false;}
     }
+
+    textBackground.draw();
+    
+/*
+    debugText.update(" X: " + 
+        myGamePiece.x + ", Y: " + 
+        myGamePiece.y + ", R: " + 
+        myGamePiece.rotation + " " +
+        //myGamePiece.rotateBool + " " +
+        //myGamePiece.rotateTo + ", " +
+        //myGamePiece.gravVar 
+        //myGamePiece.collidedWith(obstacle)
+        //colliding + " " + obstacles.length +
+        " Score: " + gameScore
+        );
+*/
+
+    scoreText.update(" Score: " + gameScore);
+    hiscoreText.update("Highscore: " + highScore);
 
 }
 
@@ -410,11 +447,17 @@ function doTouch(e){
         
         jumpBool = true;
     }
+    if (colliding) {
+        colliding = false;
+        startGame();
+        location.reload();
+    }
+    e.preventDefault();
 }
 
 function doMouseUp(e) {
     jumpBool = false;
-    
+    e.preventDefault();
 }
 
 
