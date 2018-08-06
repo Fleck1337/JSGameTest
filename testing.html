@@ -7,6 +7,14 @@ canvas {
     border:1px solid #d3d3d3;
     background-color: #f1f1f1;
 }
+body{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 </style>
 </head>
 <body onload="startGame()" onselectstart="return false;">
@@ -101,6 +109,7 @@ var myGameArea = {
         window.addEventListener('keyup', doKeyDown, true);
         window.addEventListener('touchstart', doTouch, true);
         window.addEventListener('mousedown', doTouch, true);
+        window.addEventListener('dblclick', doTouch, true);
         window.addEventListener('mouseup', doMouseUp, true);
         window.addEventListener('touchend', doMouseUp, true);
     },
@@ -466,7 +475,7 @@ function doMouseUp(e) {
 
 <br>
 
-<p>Use Space to Jump</p>
+<p>Press Space or Click/Tap the Screen to Jump</p>
 <p>How long can you stay alive?</p>
 
 </body>
